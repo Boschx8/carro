@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import Scene3D from './Scene3D'
@@ -8,6 +8,17 @@ export default function Hero() {
   const subtitleRef = useRef<HTMLDivElement>(null)
   const badgeRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background =
+        `radial-gradient(175px circle at ${x}px ${y}px, rgba(155,35,53,0.10), rgba(255,255,255,0.02) 40%, transparent 70%)`
+    }
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -37,7 +48,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-screen overflow-hidden" onMouseMove={handleMouseMove}>
       {/* 3D Canvas behind */}
       <div className="absolute inset-0">
         <Canvas
@@ -54,6 +65,8 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/50 to-transparent pointer-events-none md:block hidden" />
       <div className="absolute inset-0 bg-[#0a0a0a]/65 pointer-events-none md:hidden" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none" />
+      {/* Spotlight mouse */}
+      <div ref={spotlightRef} className="absolute inset-0 pointer-events-none transition-all duration-150" />
 
       {/* Text overlay */}
       <div className="relative z-10 flex items-center h-full">
@@ -68,15 +81,12 @@ export default function Hero() {
 
             {/* Title */}
             <div ref={titleRef} className="mb-5 md:mb-6">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tight text-white">
-                <span className="word inline-block opacity-0">Carro</span>{' '}
+              <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tight text-white uppercase">
+                <span className="word inline-block opacity-0">Nou</span>{' '}
+                <span className="word inline-block opacity-0 hero-carro">Carro</span>{' '}
                 <span className="word inline-block opacity-0">de</span>
                 <br />
                 <span className="word inline-block opacity-0">Reposició</span>
-                <br />
-                <span className="word inline-block opacity-0 bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent">
-                  Intel·ligent
-                </span>
               </h1>
             </div>
 

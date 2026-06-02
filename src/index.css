@@ -1,7 +1,41 @@
 @import "tailwindcss";
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+body {
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background: #0a0a0a;
+  color: #f1f5f9;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@keyframes shimmer-carro {
+  0%   { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+@keyframes glow-carro {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(155,35,53,0.7)) drop-shadow(0 0 30px rgba(155,35,53,0.3)); }
+  50%       { filter: drop-shadow(0 0 22px rgba(200,75,90,1))   drop-shadow(0 0 55px rgba(155,35,53,0.6)); }
+}
+.hero-carro {
+  background: linear-gradient(90deg, #7a1a28, #9B2335, #c84b5a, #ff8090, #c84b5a, #9B2335, #7a1a28);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-carro 6s linear infinite, glow-carro 4s ease-in-out infinite;
+  display: inline-block;
+}
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
