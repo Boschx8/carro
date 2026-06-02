@@ -7,7 +7,6 @@ export default function Hero() {
   const titleRef = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLDivElement>(null)
   const badgeRef = useRef<HTMLDivElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export default function Hero() {
           '-=0.2'
         )
         .fromTo(subtitleRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2')
-        .fromTo(statsRef.current?.children ?? [], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' }, '-=0.3')
         .fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 }, '-=0.2')
 
       gsap.to(scrollRef.current, {
@@ -46,59 +44,47 @@ export default function Hero() {
           camera={{ position: [0, 0.5, 6], fov: 52 }}
           gl={{ antialias: true, alpha: false }}
           dpr={[1, 1.5]}
+          style={{ touchAction: 'none' }}
         >
           <Scene3D />
         </Canvas>
       </div>
 
-      {/* Left-side gradient for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#050d1a]/90 via-[#050d1a]/50 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a] via-transparent to-transparent pointer-events-none" />
+      {/* Gradients per llegibilitat */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/50 to-transparent pointer-events-none md:block hidden" />
+      <div className="absolute inset-0 bg-[#0a0a0a]/65 pointer-events-none md:hidden" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none" />
 
       {/* Text overlay */}
       <div className="relative z-10 flex items-center h-full">
-        <div className="max-w-7xl mx-auto px-6 w-full">
+        <div className="w-full px-5 md:px-6 md:max-w-7xl md:mx-auto">
           <div className="max-w-2xl">
             {/* Badge */}
-            <div ref={badgeRef} className="opacity-0 inline-flex items-center gap-2 mb-6">
-              <span className="px-3 py-1 text-xs font-semibold bg-blue-500/15 border border-blue-500/30 text-blue-400 rounded-full tracking-widest uppercase">
+            <div ref={badgeRef} className="opacity-0 inline-flex items-center gap-2 mb-5 md:mb-6">
+              <span className="px-3 py-1 text-xs font-semibold bg-[#9B2335]/15 border border-[#9B2335]/30 text-[#c84b5a] rounded-full tracking-widest uppercase">
                 BPTalent 4.0 · Projecte 2
               </span>
             </div>
 
             {/* Title */}
-            <div ref={titleRef} className="mb-6">
-              <h1 className="text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tight text-white">
+            <div ref={titleRef} className="mb-5 md:mb-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tight text-white">
                 <span className="word inline-block opacity-0">Carro</span>{' '}
                 <span className="word inline-block opacity-0">de</span>
                 <br />
                 <span className="word inline-block opacity-0">Reposició</span>
                 <br />
-                <span className="word inline-block opacity-0 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                <span className="word inline-block opacity-0 bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent">
                   Intel·ligent
                 </span>
               </h1>
             </div>
 
             {/* Subtitle */}
-            <p ref={subtitleRef} className="opacity-0 text-slate-300 text-lg leading-relaxed mb-10 max-w-lg">
+            <p ref={subtitleRef} className="opacity-0 text-slate-300 text-base md:text-lg leading-relaxed max-w-lg">
               Validar una eina física i operativa per fer la reposició més eficient, ergonòmica i ordenada a les 232 botigues Bon Preu i Esclat.
             </p>
 
-            {/* Mini stats */}
-            <div ref={statsRef} className="flex flex-wrap gap-4">
-              {[
-                { v: '1.800', l: 'observacions' },
-                { v: '13,6 kg', l: 'pes total carro' },
-                { v: '900 €', l: 'cost base/unitat' },
-                { v: '<1 mes', l: 'payback estimat' },
-              ].map(({ v, l }) => (
-                <div key={l} className="opacity-0 flex flex-col items-center px-5 py-3 rounded-xl bg-white/4 border border-white/8 backdrop-blur-sm">
-                  <span className="text-white font-bold text-lg">{v}</span>
-                  <span className="text-slate-500 text-xs">{l}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

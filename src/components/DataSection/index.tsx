@@ -9,7 +9,7 @@ import { embalumsData, pesData, tasquesData, metresData } from '../../data/proje
 
 gsap.registerPlugin(ScrollTrigger)
 
-const CHART_COLORS = ['#1e3a6e', '#1e4a82', '#1e5a96', '#2060a8', '#2563eb', '#3b82f6', '#60a5fa']
+const CHART_COLORS = ['#3d0a10', '#550e16', '#6e121c', '#871622', '#9b2335', '#b02c40', '#c5354c']
 
 function getColor(val: number, max: number) {
   const idx = Math.floor((val / max) * (CHART_COLORS.length - 1))
@@ -88,22 +88,24 @@ export default function DataSection() {
   const max = current ? Math.max(...current.data.map((d) => d.count)) : 0
 
   return (
-    <section id="dades" ref={sectionRef} className="py-32 px-6 bg-[#050d1a]">
+    <section id="dades" ref={sectionRef} className="py-32 px-6 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={titleRef} className="opacity-0 mb-12 text-center">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
             Anàlisi quantitativa
           </p>
           <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
             1.800 observacions de{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent">
               camp
             </span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            Les dades apunten a una conclusió clara: el sistema actual no està optimitzat perquè força el treballador a adaptar-se a l'eina.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-slate-400 text-lg max-w-xl text-center">
+              Les dades apunten a una conclusió clara: el sistema actual no està optimitzat perquè força el treballador a adaptar-se a l'eina.
+            </p>
+          </div>
         </div>
 
         {/* Chart selector */}
@@ -114,7 +116,7 @@ export default function DataSection() {
               onClick={() => setActiveChart(i)}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                 activeChart === i
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-[#9B2335] text-white'
                   : 'border border-white/10 text-slate-400 hover:text-white hover:border-white/25'
               }`}
             >
@@ -125,7 +127,7 @@ export default function DataSection() {
             onClick={() => setActiveChart(-1)}
             className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
               activeChart === -1
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[#9B2335] text-white'
                 : 'border border-white/10 text-slate-400 hover:text-white hover:border-white/25'
             }`}
           >
@@ -139,7 +141,7 @@ export default function DataSection() {
             <>
               <div className="mb-6">
                 <h3 className="text-white font-bold text-xl mb-1">{current?.title}</h3>
-                <p className="text-blue-400 text-sm">{current?.subtitle}</p>
+                <p className="text-[#c84b5a] text-sm">{current?.subtitle}</p>
               </div>
 
               <ResponsiveContainer width="100%" height={260}>
@@ -161,7 +163,7 @@ export default function DataSection() {
                 </BarChart>
               </ResponsiveContainer>
 
-              <div className="mt-6 p-4 rounded-xl bg-blue-500/8 border border-blue-500/20">
+              <div className="mt-6 p-4 rounded-xl bg-[#9B2335]/8 border border-[#9B2335]/20">
                 <p className="text-slate-300 text-sm italic">{current?.note}</p>
               </div>
             </>
@@ -169,7 +171,7 @@ export default function DataSection() {
             <>
               <div className="mb-6">
                 <h3 className="text-white font-bold text-xl mb-1">Dispersió: Embalums vs Temps per bulto</h3>
-                <p className="text-blue-400 text-sm">N≈180 mostres · Sense correlació clara</p>
+                <p className="text-[#c84b5a] text-sm">N≈180 mostres · Sense correlació clara</p>
               </div>
 
               <ResponsiveContainer width="100%" height={280}>
@@ -207,11 +209,11 @@ export default function DataSection() {
                       return null
                     }}
                   />
-                  <Scatter data={scatterData} fill="#2563eb" opacity={0.6} />
+                  <Scatter data={scatterData} fill="#9B2335" opacity={0.6} />
                 </ScatterChart>
               </ResponsiveContainer>
 
-              <div className="mt-6 p-4 rounded-xl bg-blue-500/8 border border-blue-500/20">
+              <div className="mt-6 p-4 rounded-xl bg-[#9B2335]/8 border border-[#9B2335]/20">
                 <p className="text-slate-300 text-sm italic">
                   La dispersió no mostra correlació. Carregar més producte <strong className="text-white">no empitjora</strong> el temps unitari de reposició. L'optimització ha de venir de reduir viatges i tasques auxiliars.
                 </p>
@@ -223,8 +225,8 @@ export default function DataSection() {
         {/* Key stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
           {[
-            { label: 'Temps/bulto', value: '46,93 s', desc: 'estable independentment de la càrrega', color: '#60a5fa' },
-            { label: 'Objectiu embalums', value: '>20', desc: 'vs 17,05 de mitjana actual (+17%)', color: '#818cf8' },
+            { label: 'Temps/bulto', value: '46,93 s', desc: 'estable independentment de la càrrega', color: '#c84b5a' },
+            { label: 'Objectiu embalums', value: '>20', desc: 'vs 17,05 de mitjana actual (+17%)', color: '#c84b5a' },
             { label: 'Objectiu tasques banals', value: '<55 s', desc: 'vs 78s actual (−30%)', color: '#fbbf24' },
             { label: 'Objectiu metres', value: '<26 m', desc: 'vs 37,6m actual (−30%)', color: '#4ade80' },
           ].map((item) => (

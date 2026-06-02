@@ -5,7 +5,7 @@ export const cartParts = [
     icon: '⬡',
     description: "Esquelet principal d'alumini lleuger que aguanta tot el conjunt. Calculat a SolidWorks amb una rigidesa òptima per a l'ús diari en botiga.",
     detail: 'Pes total conjunt: 13,652 kg inclosos nanses, contenidors i elements auxiliars.',
-    color: '#60a5fa',
+    color: '#c84b5a',
     cameraPos: [3.0, 1.8, 3.0] as [number, number, number],
     cameraTarget: [0, 0.2, 0] as [number, number, number],
   },
@@ -36,8 +36,8 @@ export const cartParts = [
     description: "Nanses laterals dissenyades per a un ús prolongat. Redueixen la fatiga en torns amb múltiples càrregues i milloren el control del carro en maniobres.",
     detail: 'Objectiu post-pilot: valoració ergonòmica ≥7/10 per part dels reponedors.',
     color: '#fbbf24',
-    cameraPos: [2.0, 0.9, 0.5] as [number, number, number],
-    cameraTarget: [0, 0.8, -0.3] as [number, number, number],
+    cameraPos: [2.8, 0.2, 0] as [number, number, number],
+    cameraTarget: [0.4, 0.1, 0] as [number, number, number],
   },
   {
     id: 'contenidors',
@@ -62,7 +62,7 @@ export const cartParts = [
 ]
 
 export const problemStats = [
-  { value: 1800, label: 'observacions', sublabel: 'de camp agregades', suffix: '', decimals: 0, color: '#60a5fa' },
+  { value: 1800, label: 'observacions', sublabel: 'de camp agregades', suffix: '', decimals: 0, color: '#c84b5a' },
   { value: 17.05, label: 'embalums', sublabel: 'per carro (mitjana)', suffix: '', decimals: 2, color: '#818cf8' },
   { value: 9.54, label: 'kg', sublabel: 'pes mitjà observat', suffix: ' kg', decimals: 2, color: '#34d399' },
   { value: 78, label: 'segons', sublabel: 'tasques banals/càrrega', suffix: 's', decimals: 0, color: '#fbbf24' },
@@ -109,7 +109,7 @@ export const pilotPhases = [
     carros: '303 carros',
     cost: '272.700 €',
     desc: '1 carro per botiga Bon Preu (161) + 2 per Esclat (71). Mesura contínua de KPIs per gerents i caps de torn.',
-    color: '#3b82f6',
+    color: '#9B2335',
     kpis: ['Embalums >20', 'Tasques banals <55s', 'Metres <26m'],
   },
   {
@@ -129,7 +129,7 @@ export const pilotPhases = [
     carros: '749 carros',
     cost: '≈224.700 €/any',
     desc: "Implantació progressiva prioritzant Esclat i Bon Preu gran. Imputació via autoconsum al compte d'explotació de cada botiga.",
-    color: '#06b6d4',
+    color: '#c84b5a',
     kpis: ['250 carros/any', 'Prioritat Esclat', 'Via autoconsum'],
   },
   {

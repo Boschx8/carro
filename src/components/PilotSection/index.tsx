@@ -6,7 +6,7 @@ import { pilotPhases } from '../../data/projectData'
 gsap.registerPlugin(ScrollTrigger)
 
 const kpis = [
-  { kpi: 'Embalums per carro', actual: '17,05', obj: '>20', unit: 'embalums', color: '#60a5fa' },
+  { kpi: 'Embalums per carro', actual: '17,05', obj: '>20', unit: 'embalums', color: '#c84b5a' },
   { kpi: 'Tasques banals/carro', actual: '78 s', obj: '<55 s', unit: 'per càrrega', color: '#fbbf24' },
   { kpi: 'Metres innecessaris', actual: '37,6 m', obj: '<26 m', unit: 'per càrrega', color: '#f87171' },
   { kpi: 'Fatiga percebuda', actual: '—', obj: '≥7/10', unit: 'enquesta post-pilot', color: '#4ade80' },
@@ -42,28 +42,30 @@ export default function PilotSection() {
   }, [])
 
   return (
-    <section id="pilot" ref={sectionRef} className="py-32 px-6 bg-[#050d1a]">
+    <section id="pilot" ref={sectionRef} className="py-32 px-6 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={titleRef} className="opacity-0 mb-16 text-center">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
             Pla d'implantació · Risc mínim
           </p>
           <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
             Primer validem,{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent">
               després escalem
             </span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            No s'escalarà fins que les dades del pilot confirmin les hipòtesis de millora. El criteri d'escalat no és el temps transcorregut, sinó la validació dels KPIs.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-slate-400 text-lg max-w-2xl text-center">
+              No s'escalarà fins que les dades del pilot confirmin les hipòtesis de millora. El criteri d'escalat no és el temps transcorregut, sinó la validació dels KPIs.
+            </p>
+          </div>
         </div>
 
         {/* Phase timeline */}
         <div className="relative mb-16">
           {/* Connecting line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-blue-600/50 via-purple-600/30 to-transparent hidden md:block" />
+          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#9B2335]/50 via-[#c84b5a]/30 to-transparent hidden md:block" />
 
           <div className="flex flex-col gap-6">
             {pilotPhases.map((phase, i) => (
@@ -132,7 +134,7 @@ export default function PilotSection() {
         <div ref={kpisRef} className="opacity-0">
           <div className="mb-6 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">KPIs de validació del pilot</h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-400 text-sm text-center">
               Decisió d'escalat quan almenys els 4 primers indicadors mostren una millora ≥10%
             </p>
           </div>
@@ -168,10 +170,10 @@ export default function PilotSection() {
         </div>
 
         {/* Final recommendation box */}
-        <div className="mt-16 p-8 rounded-2xl border border-blue-500/25 bg-blue-500/6 text-center">
+        <div className="mt-16 p-8 rounded-2xl border border-[#9B2335]/25 bg-[#9B2335]/6 text-center">
           <div className="text-4xl mb-4">🚀</div>
           <h3 className="text-2xl font-bold text-white mb-3">Recomanació final</h3>
-          <p className="text-slate-300 text-base leading-relaxed max-w-2xl mx-auto mb-6">
+          <p className="text-slate-300 text-base leading-relaxed max-w-2xl mb-6 text-center" style={{ margin: '0 auto 1.5rem' }}>
             Iniciar el pilot amb <strong className="text-white">Loginetics</strong> com a proveïdor de referència, mesurar els KPIs durant 3 mesos i prendre la decisió d'escalat <strong className="text-white">únicament en base a les dades reals</strong>.
             El cost del pilot (272.700 €) és baix en relació al retorn potencial i al risc que es mitiga en no escalar sense validar.
           </p>
@@ -182,8 +184,8 @@ export default function PilotSection() {
               { label: 'Fase 1', value: '303 carros pilot' },
               { label: 'Escalat', value: '3 anys' },
             ].map(({ label, value }) => (
-              <div key={label} className="px-5 py-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-center">
-                <div className="text-blue-400 text-xs font-medium mb-0.5">{label}</div>
+              <div key={label} className="px-5 py-3 rounded-xl bg-[#9B2335]/10 border border-[#9B2335]/20 text-center">
+                <div className="text-[#c84b5a] text-xs font-medium mb-0.5">{label}</div>
                 <div className="text-white font-bold text-sm">{value}</div>
               </div>
             ))}
@@ -192,9 +194,7 @@ export default function PilotSection() {
 
         {/* Footer */}
         <div className="mt-20 pt-10 border-t border-white/5 text-center">
-          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-sm">BP</span>
-          </div>
+          <img src="/BP TALENT_granat.png" alt="BPTalent 4.0" className="h-30 w-auto mx-auto mb-4" />
           <p className="text-slate-400 text-sm">Projecte 2 BPTalent 4.0 · Carro de Reposició Intel·ligent</p>
           <p className="text-slate-600 text-xs mt-1">· Marc Pere Pascual - Pau Bosch - Irinel Timofte ·</p>
         </div>

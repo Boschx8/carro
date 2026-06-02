@@ -5,15 +5,15 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #050d1a;
+  background: #0a0a0a;
   color: #f1f5f9;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 #root { width: 100%; max-width: 100%; }
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #050d1a; }
-::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #9B2335; border-radius: 2px; }
 canvas { display: block; }
 
 /* Legacy vars kept for compat */
@@ -70,11 +70,10 @@ canvas { display: block; }
 }
 
 #root {
-  width: 1126px;
+  width: 100%;
   max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  margin: 0;
+  text-align: left;
   min-height: 100svh;
   display: flex;
   flex-direction: column;

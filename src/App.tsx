@@ -32,7 +32,7 @@ export default function App() {
   }, [])
 
   return (
-    <div style={{ background: '#050d1a', color: '#f1f5f9', overflowX: 'hidden', fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div style={{ background: '#0a0a0a', color: '#f1f5f9', overflowX: 'hidden', fontFamily: "'Inter', system-ui, sans-serif" }}>
       <Navigation />
       <Hero />
       <Problem />

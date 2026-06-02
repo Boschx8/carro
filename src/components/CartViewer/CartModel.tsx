@@ -36,11 +36,11 @@ function PartGroup({ id, label, labelPos, selectedId, onSelect, children }: Part
 
       {/* Floating label */}
       {(hovered || isSelected) && (
-        <Html position={labelPos} center distanceFactor={9} zIndexRange={[10, 0]}>
+        <Html position={labelPos} center zIndexRange={[10, 0]} style={{ transform: 'scale(0.85)', transformOrigin: 'center' }}>
           <div
             style={{
-              background: isSelected ? 'rgba(37,99,235,0.9)' : 'rgba(8,15,30,0.82)',
-              border: `1px solid ${isSelected ? 'rgba(96,165,250,0.6)' : 'rgba(255,255,255,0.15)'}`,
+              background: isSelected ? 'rgba(155,35,53,0.9)' : 'rgba(10,10,10,0.85)',
+              border: `1px solid ${isSelected ? 'rgba(200,75,90,0.6)' : 'rgba(255,255,255,0.15)'}`,
               backdropFilter: 'blur(8px)',
               padding: '6px 14px',
               borderRadius: '20px',
@@ -49,7 +49,7 @@ function PartGroup({ id, label, labelPos, selectedId, onSelect, children }: Part
               fontWeight: 600,
               whiteSpace: 'nowrap',
               pointerEvents: 'none',
-              boxShadow: isSelected ? '0 0 20px rgba(37,99,235,0.4)' : 'none',
+              boxShadow: isSelected ? '0 0 12px rgba(155,35,53,0.3)' : 'none',
             }}
           >
             {label}
@@ -80,7 +80,7 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
 
   const sel = selectedId
   const em = useCallback((partId: PartId) => {
-    if (sel === partId) return '#2563eb'
+    if (sel === partId) return '#c84b5a'
     return '#000000'
   }, [sel])
   const emI = useCallback((partId: PartId) => {
@@ -92,60 +92,66 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
     return 0.28
   }, [sel])
 
+  // Alumini gris clar (estructura metàl·lica)
   const frameProps = (id: PartId) => ({
-    color: '#b8c4d2',
-    metalness: 0.85,
-    roughness: 0.15,
+    color: '#b0b8c2',
+    metalness: 0.88,
+    roughness: 0.18,
     emissive: em(id),
     emissiveIntensity: emI(id),
     transparent: op(id) < 1,
     opacity: op(id),
   })
 
+  // Fusta marró càlid (plataformes)
   const shelfProps = (id: PartId) => ({
-    color: '#6e8aa8',
-    metalness: 0.3,
-    roughness: 0.5,
+    color: '#8B6020',
+    metalness: 0.0,
+    roughness: 0.78,
     emissive: em(id),
     emissiveIntensity: emI(id),
     transparent: op(id) < 1,
     opacity: op(id),
   })
 
+  // Rodes negres de goma
   const wheelProps = {
-    color: '#141422',
+    color: '#1a1a1a',
     metalness: 0.05,
-    roughness: 0.9,
+    roughness: 0.92,
     emissive: em('rodes'),
     emissiveIntensity: emI('rodes'),
     transparent: op('rodes') < 1,
     opacity: op('rodes'),
   }
 
+  // Mànecs negres de plàstic dur
   const handleProps = {
-    color: '#dde8f4',
-    metalness: 0.92,
-    roughness: 0.08,
+    color: '#1c1c1e',
+    metalness: 0.08,
+    roughness: 0.85,
     emissive: em('nanses'),
     emissiveIntensity: emI('nanses'),
     transparent: op('nanses') < 1,
     opacity: op('nanses'),
   }
 
+  // Contenidors: groc olivaci (cartró) i blau (plàstic)
   const binProps = (id: PartId) => ({
-    color: '#1a4030',
+    color: '#A89A18',
     metalness: 0.0,
-    roughness: 0.82,
+    roughness: 0.75,
     emissive: em(id),
     emissiveIntensity: emI(id),
     transparent: true,
-    opacity: op(id) * 0.9,
+    opacity: op(id) * 0.95,
   })
 
+  // Sistema de bloqueig: alumini fosc
   const lockProps = {
-    color: '#c07820',
-    metalness: 0.65,
-    roughness: 0.28,
+    color: '#888892',
+    metalness: 0.72,
+    roughness: 0.32,
     emissive: em('bloqueig'),
     emissiveIntensity: emI('bloqueig'),
     transparent: op('bloqueig') < 1,
@@ -210,22 +216,30 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
             </mesh>
             <mesh position={pos} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.026, 0.026, 0.065, 10]} />
-              <meshStandardMaterial color="#a8bcc8" metalness={0.88} roughness={0.12} transparent opacity={op('rodes')} />
+              <meshStandardMaterial color="#c0c4c8" metalness={0.90} roughness={0.10} transparent opacity={op('rodes')} />
             </mesh>
           </group>
         ))}
       </PartGroup>
 
       {/* ── NANSES ── */}
-      <PartGroup id="nanses" label="Nanses" labelPos={[0, 0.88, -0.6]} selectedId={selectedId} onSelect={onSelect}>
-        {([-0.38, 0.38] as number[]).map((x, i) => (
+      {/* Ambdues nanses a la cara curta dreta (x=+0.38), una per cada pal */}
+      <PartGroup id="nanses" label="Nanses" labelPos={[0.75, 0.2, 0]} selectedId={selectedId} onSelect={onSelect}>
+        {([0.28, -0.28] as number[]).map((z, i) => (
           <group key={`h${i}`}>
-            <mesh position={[x, 0.84, -0.28]}>
-              <cylinderGeometry args={[0.019, 0.019, 0.38, 10]} />
+            {/* Barra de prensió vertical, sobresurt cap a fora en +X */}
+            <mesh position={[0.47, 0.1, z]}>
+              <cylinderGeometry args={[0.019, 0.019, 0.36, 10]} />
               <meshStandardMaterial {...handleProps} />
             </mesh>
-            <mesh position={[x, 0.84, -0.12]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.019, 0.019, 0.32, 10]} />
+            {/* Bracket superior (horitzontal en X) */}
+            <mesh position={[0.425, 0.28, z]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.014, 0.014, 0.09, 8]} />
+              <meshStandardMaterial {...handleProps} />
+            </mesh>
+            {/* Bracket inferior */}
+            <mesh position={[0.425, -0.08, z]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.014, 0.014, 0.09, 8]} />
               <meshStandardMaterial {...handleProps} />
             </mesh>
           </group>
@@ -234,22 +248,25 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
 
       {/* ── CONTENIDORS ── */}
       <PartGroup id="contenidors" label="Contenidors" labelPos={[0, -0.56, 0.45]} selectedId={selectedId} onSelect={onSelect}>
+        {/* Groc - cartró */}
         <mesh position={[-0.19, -0.73, 0]}>
           <boxGeometry args={[0.3, 0.23, 0.44]} />
-          <meshStandardMaterial {...binProps('contenidors')} />
+          <meshStandardMaterial {...binProps('contenidors')} color="#A89A18" />
         </mesh>
+        {/* Blau - plàstic */}
         <mesh position={[0.19, -0.73, 0]}>
           <boxGeometry args={[0.3, 0.23, 0.44]} />
-          <meshStandardMaterial {...binProps('contenidors')} color="#224a34" />
+          <meshStandardMaterial {...binProps('contenidors')} color="#2448A8" />
         </mesh>
-        {/* Bin fronts */}
+        {/* Frontal groc */}
         <mesh position={[-0.19, -0.67, 0.225]}>
           <boxGeometry args={[0.2, 0.07, 0.005]} />
-          <meshStandardMaterial color="#2a5a3c" metalness={0} roughness={0.9} transparent opacity={op('contenidors')} />
+          <meshStandardMaterial color="#C0B020" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
         </mesh>
+        {/* Frontal blau */}
         <mesh position={[0.19, -0.67, 0.225]}>
           <boxGeometry args={[0.2, 0.07, 0.005]} />
-          <meshStandardMaterial color="#3a5a28" metalness={0} roughness={0.9} transparent opacity={op('contenidors')} />
+          <meshStandardMaterial color="#2A52C0" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
         </mesh>
       </PartGroup>
 

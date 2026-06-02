@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const roiNumbers = [
   { label: 'Payback estimat', value: '< 1 mes', desc: "Inclou amortització i manteniment. Validar amb dades reals del pilot.", color: '#4ade80', big: true },
-  { label: 'Benefici net anual (botiga tipus)', value: '94.598 €', desc: '2 carros · 50 treballadors · SS inclosa', color: '#60a5fa', big: true },
+  { label: 'Benefici net anual (botiga tipus)', value: '94.598 €', desc: '2 carros · 50 treballadors · SS inclosa', color: '#c84b5a', big: true },
   { label: 'Valor anual temps alliberat (xarxa)', value: '50 M€', desc: '232 botigues · Extrapolació proporcional', color: '#fbbf24', big: false },
 ]
 
@@ -56,11 +56,11 @@ export default function ROISection() {
   }, [])
 
   return (
-    <section id="roi" ref={sectionRef} className="py-32 px-6 bg-[#060e1c]">
+    <section id="roi" ref={sectionRef} className="py-32 px-6 bg-[#0f0f0f]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={titleRef} className="opacity-0 mb-16 text-center">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
             Anàlisi econòmica · Hipòtesi conservadora
           </p>
           <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
@@ -69,9 +69,11 @@ export default function ROISection() {
               molt elevat
             </span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            El ROI no suposa acomiadar ningú. Quantifica el temps que els treballadors podran destinar a reposició productiva en lloc de tasques ineficients. La verificació real requereix mesurar els KPIs al pilot.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-slate-400 text-lg max-w-2xl text-center">
+              El ROI no suposa acomiadar ningú. Quantifica el temps que els treballadors podran destinar a reposició productiva en lloc de tasques ineficients. La verificació real requereix mesurar els KPIs al pilot.
+            </p>
+          </div>
         </div>
 
         {/* Big ROI numbers */}
@@ -139,7 +141,7 @@ export default function ROISection() {
                 </thead>
                 <tbody>
                   {sensitivityData.map((row, i) => (
-                    <tr key={i} className={`border-b border-white/5 ${i === sensitivityData.length - 1 ? 'bg-blue-500/8' : ''}`}>
+                    <tr key={i} className={`border-b border-white/5 ${i === sensitivityData.length - 1 ? 'bg-[#9B2335]/8' : ''}`}>
                       <td className="px-6 py-3 text-slate-300 text-sm">{row.millora}</td>
                       <td className="px-6 py-3 text-white font-semibold text-sm text-right">{row.valor}</td>
                       <td className="px-6 py-3 text-green-400 font-bold text-sm text-right">{row.payback}</td>
@@ -183,10 +185,10 @@ export default function ROISection() {
                     <td className="px-6 py-3 text-slate-300 text-sm">{row.botigues}</td>
                     <td className="px-6 py-3 text-slate-300 text-sm">{row.carros}</td>
                     <td className="px-6 py-3 text-white font-semibold text-sm">{row.total}</td>
-                    <td className="px-6 py-3 text-blue-400 font-semibold text-sm">{row.inversio}</td>
+                    <td className="px-6 py-3 text-[#c84b5a] font-semibold text-sm">{row.inversio}</td>
                   </tr>
                 ))}
-                <tr className="bg-blue-500/8 border-t border-blue-500/20">
+                <tr className="bg-[#9B2335]/8 border-t border-[#9B2335]/20">
                   <td className="px-6 py-3 text-white font-bold text-sm">Total</td>
                   <td className="px-6 py-3 text-white font-bold text-sm">232</td>
                   <td className="px-6 py-3 text-slate-300 text-sm">—</td>

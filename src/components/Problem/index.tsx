@@ -10,7 +10,7 @@ const problems = [
     title: 'Carros infrautilitzats',
     desc: "Amb una mitjana de 17,05 embalums per carro, els carros no s'omplen al màxim. La limitació és d'usabilitat i accessibilitat, no de capacitat física.",
     icon: '📦',
-    color: '#60a5fa',
+    color: '#c84b5a',
   },
   {
     title: 'Residus no integrats',
@@ -93,11 +93,11 @@ export default function Problem() {
   }, [])
 
   return (
-    <section id="problema" ref={sectionRef} className="py-32 px-6 bg-[#060e1c]">
+    <section id="problema" ref={sectionRef} className="py-32 px-6 bg-[#0f0f0f]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={titleRef} className="opacity-0 mb-16 text-center">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
             Diagnosi operativa · 1.800 observacions de camp
           </p>
           <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
@@ -106,9 +106,11 @@ export default function Problem() {
               optimitzat
             </span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            L'eina actual força el treballador a adaptar-se a ella. El carro ideal ha de ser al revés: adaptar-se al procés real de reposició.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-slate-400 text-lg max-w-2xl text-center">
+              L'eina actual força el treballador a adaptar-se a ella. El carro ideal ha de ser al revés: adaptar-se al procés real de reposició.
+            </p>
+          </div>
         </div>
 
         {/* Stats row */}
@@ -137,7 +139,7 @@ export default function Problem() {
               className="opacity-0 p-7 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 transition-colors duration-300 group"
             >
               <div className="text-3xl mb-4">{p.icon}</div>
-              <h3 className="text-white font-bold text-lg mb-3 group-hover:text-blue-300 transition-colors">{p.title}</h3>
+              <h3 className="text-white font-bold text-lg mb-3 group-hover:text-[#c84b5a] transition-colors">{p.title}</h3>
               <p className="text-slate-400 text-sm leading-relaxed">{p.desc}</p>
               <div className="mt-5 h-0.5 w-12 rounded-full" style={{ backgroundColor: p.color }} />
             </div>
@@ -145,8 +147,8 @@ export default function Problem() {
         </div>
 
         {/* Key insight */}
-        <div className="mt-12 p-8 rounded-2xl border border-blue-500/20 bg-blue-500/5">
-          <p className="text-blue-300 text-center text-lg italic">
+        <div className="mt-12 p-8 rounded-2xl border border-[#9B2335]/20 bg-[#9B2335]/5">
+          <p className="text-[#e07080] text-center text-lg italic">
             "La dispersió entre embalums i temps per col·locar un bulto pràcticament no mostra correlació.
             Carregar més producte <strong className="text-white not-italic">no empitjoraria</strong> el temps unitari
             si el carro és estable, accessible i ergonòmic."
