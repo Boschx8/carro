@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import Scene3D from './Scene3D'
