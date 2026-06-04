@@ -60,9 +60,9 @@ export default function ROISection() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={titleRef} className="opacity-0 mb-16 text-center">
-          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
-            Anàlisi econòmica · Hipòtesi conservadora
-          </p>
+          <div className="text-[#c84b5a] text-2xl md:text-3xl font-bold tracking-widest uppercase mb-8">
+            Anàlisi econòmica
+          </div>
           <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
             Retorn operatiu{' '}
             <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
@@ -74,26 +74,6 @@ export default function ROISection() {
               El ROI no suposa acomiadar ningú. Quantifica el temps que els treballadors podran destinar a reposició productiva en lloc de tasques ineficients. La verificació real requereix mesurar els KPIs al pilot.
             </p>
           </div>
-        </div>
-
-        {/* Big ROI numbers */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {roiNumbers.map((item, i) => (
-            <div
-              key={i}
-              ref={(el) => { cardsRef.current[i] = el }}
-              className="opacity-0 p-8 rounded-2xl border border-white/8 bg-white/3 text-center"
-            >
-              <div
-                className={`font-black mb-3 ${item.big ? 'text-5xl lg:text-6xl' : 'text-4xl'}`}
-                style={{ color: item.color }}
-              >
-                {item.value}
-              </div>
-              <div className="text-white font-semibold text-lg mb-2">{item.label}</div>
-              <div className="text-slate-500 text-sm">{item.desc}</div>
-            </div>
-          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
@@ -198,6 +178,26 @@ export default function ROISection() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Big ROI numbers */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          {roiNumbers.map((item, i) => (
+            <div
+              key={i}
+              ref={(el) => { cardsRef.current[i] = el }}
+              className="opacity-0 p-8 rounded-2xl border border-white/8 bg-white/3 text-center"
+            >
+              <div
+                className={`font-black mb-3 ${item.big ? 'text-5xl lg:text-6xl' : 'text-4xl'}`}
+                style={{ color: item.color }}
+              >
+                {item.value}
+              </div>
+              <div className="text-white font-semibold text-lg mb-2">{item.label}</div>
+              <div className="text-slate-500 text-sm">{item.desc}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

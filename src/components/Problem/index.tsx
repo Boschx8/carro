@@ -1,111 +1,155 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { problemStats } from '../../data/projectData'
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
+  ScatterChart, Scatter, ZAxis, CartesianGrid,
+} from 'recharts'
+import { embalumsData, tasquesData, metresData, pesData } from '../../data/projectData'
+import { IconBox, IconClock, IconArrows, IconRecycle } from '../Icons'
+
+const scatterData = Array.from({ length: 180 }, () => ({
+  embalums: Math.max(5, Math.round(Math.random() * 30 + 5)),
+  temps: Math.max(25, Math.round(35 + Math.random() * 30 + (Math.random() > 0.5 ? 5 : -5))),
+}))
 
 gsap.registerPlugin(ScrollTrigger)
 
+const CHART_COLORS = ['#3d0a10', '#550e16', '#6e121c', '#871622', '#9b2335', '#b02c40', '#c5354c']
+function getColor(val: number, max: number) {
+  const idx = Math.floor((val / max) * (CHART_COLORS.length - 1))
+  return CHART_COLORS[Math.min(idx, CHART_COLORS.length - 1)]
+}
+function MetricChart({ data }: { data: { bin: string; count: number }[] }) {
+  const max = Math.max(...data.map((d) => d.count))
+  return (
+    <ResponsiveContainer width="100%" height={480}>
+      <BarChart data={data} margin={{ top: 8, right: 8, bottom: 8, left: 0 }}>
+        <XAxis dataKey="bin" tick={{ fill: '#ffffff', fontSize: 18 }} axisLine={false} tickLine={false} interval={0} />
+        <YAxis hide />
+        <Tooltip
+          content={({ active, payload, label }) =>
+            active && payload?.[0] ? (
+              <div className="bg-[#1a1a1a] border border-white/10 rounded px-3 py-2">
+                <p className="text-slate-400 text-xs">{label}</p>
+                <p className="text-white text-sm font-bold">{payload[0].value} obs.</p>
+              </div>
+            ) : null
+          }
+          cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+        />
+        <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={48}>
+          {data.map((entry, i) => (
+            <Cell key={i} fill={getColor(entry.count, max)} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+
 const problems = [
   {
+    num: '01',
+    Icon: IconBox,
     title: 'Carros infrautilitzats',
-    desc: "Amb una mitjana de 17,05 embalums per carro, els carros no s'omplen al màxim. La limitació és d'usabilitat i accessibilitat, no de capacitat física.",
-    icon: '📦',
+    desc: "Els carros no s'omplen al màxim. La limitació és d'usabilitat i accessibilitat, no de capacitat física del carro.",
+    stat: '17,05',
+    unit: 'embalums/carro',
+    target: 'Objectiu: >20 embalums (+17%)',
     color: '#c84b5a',
+    data: embalumsData,
+    chartLabel: 'Distribució embalums per carro',
   },
   {
-    title: 'Residus no integrats',
-    desc: 'Sense espai per a cartró i plàstic, el treballador fa desplaçaments addicionals o acumula residus al terra, amb el risc de seguretat associat.',
-    icon: '♻️',
-    color: '#4ade80',
-  },
-  {
-    title: 'Tasques banals',
-    desc: 'Fins a 78 s per càrrega es destinen a tasques sense valor directe: buscar espai per a residus, reajustar productes o recol·locar embalums.',
-    icon: '⏱',
+    num: '02',
+    Icon: IconClock,
+    title: 'Tasques sense valor',
+    desc: 'Per càrrega, el treballador dedica més d\'un minut a buscar espai per a residus, reajustar productes o recol·locar embalums.',
+    stat: '78',
+    unit: 's per càrrega',
+    target: 'Objectiu: <55 s (−30%)',
     color: '#fbbf24',
+    data: tasquesData,
+    chartLabel: 'Distribució temps tasques banals',
   },
   {
+    num: '03',
+    Icon: IconArrows,
     title: 'Recorreguts evitables',
-    desc: "La manca d'integració d'eines genera 37,6 m de recorregut innecessari per càrrega, saturant passadissos i generant pèrdua de productivitat.",
-    icon: '↔️',
+    desc: "La manca d'eines integrades genera desplaçaments addicionals per gestionar residus i buscar elements, saturant passadissos.",
+    stat: '37,6',
+    unit: 'm per càrrega',
+    target: 'Objectiu: <26 m (−30%)',
     color: '#f87171',
+    data: metresData,
+    chartLabel: 'Distribució metres innecessaris',
+  },
+  {
+    num: '04',
+    Icon: IconRecycle,
+    title: 'Residus no integrats',
+    desc: "Sense espai per a cartró i plàstic, el treballador acumula residus al terra o fa viatges addicionals. El pes del carro mostra que hi ha marge per absorbir-los.",
+    stat: '9,54',
+    unit: 'kg pes mitjà',
+    target: 'Marge disponible per portar més',
+    color: '#4ade80',
+    data: pesData,
+    chartLabel: 'Distribució pes carro ple (kg)',
   },
 ]
 
 export default function Problem() {
   const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLDivElement>(null)
-  const countersRef = useRef<(HTMLSpanElement | null)[]>([])
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
+  const introRef = useRef<HTMLDivElement>(null)
+  const blocksRef = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animation
-      gsap.fromTo(
-        titleRef.current,
+      gsap.fromTo(introRef.current,
         { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: titleRef.current, start: 'top 85%' },
-        }
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: introRef.current, start: 'top 85%' } }
       )
-
-      // Counter animations
-      problemStats.forEach((stat, i) => {
-        const el = countersRef.current[i]
+      blocksRef.current.forEach((el) => {
         if (!el) return
-        const obj = { val: 0 }
-        gsap.to(obj, {
-          val: stat.value,
-          duration: 2.2,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 88%' },
-          onUpdate() {
-            const v = obj.val
-            el.textContent =
-              stat.decimals > 0 ? v.toFixed(stat.decimals) : Math.round(v).toLocaleString('ca')
-          },
-        })
-      })
-
-      // Card slide-in
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return
-        gsap.fromTo(
-          card,
+        gsap.fromTo(el,
           { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            delay: i * 0.1,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: card, start: 'top 88%' },
-          }
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 88%' } }
         )
       })
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
   return (
-    <section id="problema" ref={sectionRef} className="py-32 px-6 bg-[#0f0f0f]">
+    <section id="problema" ref={sectionRef} className="py-20 px-4 md:px-6 bg-[#0f0f0f]">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div ref={titleRef} className="opacity-0 mb-16 text-center">
-          <p className="text-[#c84b5a] text-sm font-semibold tracking-widest uppercase mb-3">
-            Diagnosi operativa · 1.800 observacions de camp
-          </p>
-          <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
-            El sistema actual no està{' '}
-            <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-              optimitzat
-            </span>
-          </h2>
+
+        {/* ── INTRO: 180 → 1.800 ── */}
+        <div ref={introRef} className="text-center mb-24">
+          <div className="text-[#c84b5a] text-2xl md:text-3xl font-bold tracking-widest uppercase mb-16">
+            Diagnosi operativa
+          </div>
+          {/* Les dues xifres grans */}
+          <div className="flex items-center justify-center gap-4 md:gap-8 mb-8">
+            <div className="text-center">
+              <div className="text-6xl md:text-8xl font-black text-white leading-none">180</div>
+              <div className="text-slate-400 text-sm mt-2">observacions manuals</div>
+            </div>
+            <div className="flex flex-col items-center gap-1 text-[#9B2335]">
+              <div className="text-2xl font-black">→</div>
+              <div className="text-xs text-slate-500 uppercase tracking-widest">extrapol.</div>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl md:text-8xl font-black bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent leading-none">
+                1.800
+              </div>
+              <div className="text-slate-400 text-sm mt-2">observacions totals</div>
+            </div>
+          </div>
+
           <div className="flex justify-center">
             <p className="text-slate-400 text-lg max-w-2xl text-center">
               L'eina actual força el treballador a adaptar-se a ella. El carro ideal ha de ser al revés: adaptar-se al procés real de reposició.
@@ -113,47 +157,90 @@ export default function Problem() {
           </div>
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
-          {problemStats.map((stat, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center p-6 rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm text-center"
-            >
-              <div className="text-3xl font-black mb-1" style={{ color: stat.color }}>
-                <span ref={(el) => { countersRef.current[i] = el }}>0</span>
-                {stat.suffix}
-              </div>
-              <div className="text-white text-sm font-semibold">{stat.label}</div>
-              <div className="text-slate-500 text-xs mt-0.5">{stat.sublabel}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Problem cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* ── PROBLEMES + GRÀFIQUES ── */}
+        <div className="flex flex-col gap-28">
           {problems.map((p, i) => (
             <div
-              key={i}
-              ref={(el) => { cardsRef.current[i] = el }}
-              className="opacity-0 p-7 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 transition-colors duration-300 group"
+              key={p.num}
+              ref={(el) => { blocksRef.current[i] = el }}
+              className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden"
             >
-              <div className="text-3xl mb-4">{p.icon}</div>
-              <h3 className="text-white font-bold text-lg mb-3 group-hover:text-[#c84b5a] transition-colors">{p.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{p.desc}</p>
-              <div className="mt-5 h-0.5 w-12 rounded-full" style={{ backgroundColor: p.color }} />
+              {/* Capçalera */}
+              <div className="p-10 md:p-16 flex flex-col md:flex-row md:items-center gap-8 md:gap-16 border-b border-white/5">
+                <div className="flex items-center gap-4 shrink-0">
+                  <div style={{ color: p.color }}><p.Icon className="w-10 h-10" /></div>
+                  <span className="text-slate-600 font-black text-xl">{p.num}</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-white font-black text-2xl mb-4">{p.title}</h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">{p.desc}</p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="flex items-end gap-2 justify-end">
+                    <span className="text-6xl font-black text-white leading-none">{p.stat}</span>
+                    <span className="text-xl font-semibold mb-1" style={{ color: p.color }}>{p.unit}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Gràfica gran */}
+              <div className="px-10 md:px-16 pt-10 pb-8">
+                <p className="text-slate-600 text-xs uppercase tracking-widest mb-4">{p.chartLabel}</p>
+                <MetricChart data={p.data} />
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Key insight */}
-        <div className="mt-12 p-8 rounded-2xl border border-[#9B2335]/20 bg-[#9B2335]/5">
-          <p className="text-[#e07080] text-center text-lg italic">
-            "La dispersió entre embalums i temps per col·locar un bulto pràcticament no mostra correlació.
-            Carregar més producte <strong className="text-white not-italic">no empitjoraria</strong> el temps unitari
-            si el carro és estable, accessible i ergonòmic."
-          </p>
+        {/* ── CONCLUSIONS ── */}
+        <div className="mt-8 rounded-2xl border border-white/8 bg-white/3 overflow-hidden">
+          <div className="px-6 py-4 border-b border-white/5">
+            <p className="text-[#c84b5a] text-xs font-semibold tracking-widest uppercase">Objectius del nou carro</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
+            {problems.map((p) => (
+              <div key={p.num} className="p-5 text-center">
+                <div className="text-xs text-slate-500 mb-2">{p.title}</div>
+                <div className="text-2xl font-black mb-1" style={{ color: p.color }}>{p.stat}</div>
+                <div className="text-xs font-medium" style={{ color: p.color }}>→ {p.target}</div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* ── SCATTER: embalums vs temps ── */}
+        <div className="mt-8 rounded-2xl border border-white/8 bg-white/3 p-6">
+          <div className="mb-4">
+            <h4 className="text-white font-bold text-lg mb-1">Embalums vs Temps per col·locar 1 bulto</h4>
+            <p className="text-[#c84b5a] text-sm">Sense correlació clara · N≈180 mostres</p>
+          </div>
+          <ResponsiveContainer width="100%" height={220}>
+            <ScatterChart margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
+              <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
+              <XAxis dataKey="embalums" type="number" name="Embalums" domain={[5, 35]}
+                tick={{ fill: '#475569', fontSize: 10 }} axisLine={false}
+                label={{ value: 'Embalums per carro', position: 'bottom', fill: '#475569', fontSize: 10 }} />
+              <YAxis dataKey="temps" type="number" name="Temps" domain={[20, 70]}
+                tick={{ fill: '#475569', fontSize: 10 }} axisLine={false}
+                label={{ value: 'Temps per bulto (s)', angle: -90, position: 'insideLeft', fill: '#475569', fontSize: 10 }} />
+              <ZAxis range={[20, 20]} />
+              <Tooltip cursor={{ strokeDasharray: '3 3', stroke: 'rgba(255,255,255,0.1)' }}
+                content={({ active, payload }) => active && payload?.length ? (
+                  <div className="bg-[#1a1a1a] border border-white/10 rounded px-2 py-1">
+                    <p className="text-white text-xs">{payload[0]?.value} embalums · {payload[1]?.value}s</p>
+                  </div>
+                ) : null} />
+              <Scatter data={scatterData} fill="#9B2335" opacity={0.6} />
+            </ScatterChart>
+          </ResponsiveContainer>
+          <div className="mt-4 p-4 rounded-xl bg-[#9B2335]/8 border border-[#9B2335]/20">
+            <p className="text-[#e07080] text-center text-base italic">
+              "Carregar més producte <strong className="text-white not-italic">no empitjora</strong> el temps unitari.
+              La limitació és el disseny del carro, no el treballador."
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   )

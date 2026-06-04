@@ -4,6 +4,16 @@ import { CameraControls, ContactShadows } from '@react-three/drei'
 import { AnimatePresence, motion } from 'framer-motion'
 import { cartParts } from '../../data/projectData'
 import CartModel from './CartModel'
+import { IconStructure, IconLayers, IconWheel, IconGrip, IconContainer, IconLock } from '../Icons'
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  structure: IconStructure, layers: IconLayers, wheel: IconWheel,
+  grip: IconGrip, container: IconContainer, lock: IconLock,
+}
+function PartIcon({ name, className = 'w-6 h-6' }: { name: string; className?: string }) {
+  const Comp = iconMap[name]
+  return Comp ? <Comp className={className} /> : null
+}
 
 type PartId = 'estructura' | 'plataformes' | 'rodes' | 'nanses' | 'contenidors' | 'bloqueig'
 
@@ -69,10 +79,10 @@ function InfoPanelContent({
   return (
     <>
       <div
-        className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl mb-4 border border-white/10"
-        style={{ background: `${selectedPart.color}15`, borderColor: `${selectedPart.color}30` }}
+        className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 border border-white/10"
+        style={{ background: `${selectedPart.color}15`, borderColor: `${selectedPart.color}30`, color: selectedPart.color }}
       >
-        {selectedPart.icon}
+        <PartIcon name={selectedPart.icon} className="w-6 h-6" />
       </div>
       <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: selectedPart.color }}>
         Component
@@ -119,9 +129,9 @@ export default function CartViewer() {
 
         {/* Títol */}
         <div className="text-center mb-6 md:mb-8">
-          <p className="text-[#c84b5a] text-xs font-semibold tracking-widest uppercase mb-2">
-            Disseny conceptual · SolidWorks
-          </p>
+          <div className="text-[#c84b5a] text-2xl md:text-3xl font-bold tracking-widest uppercase mb-4">
+            Disseny conceptual
+          </div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white">
             Explora el{' '}
             <span className="bg-gradient-to-r from-[#9B2335] to-[#c84b5a] bg-clip-text text-transparent">

@@ -2,7 +2,7 @@ export const cartParts = [
   {
     id: 'estructura',
     name: "Estructura d'Alumini",
-    icon: '⬡',
+    icon: 'structure',
     description: "Esquelet principal d'alumini lleuger que aguanta tot el conjunt. Calculat a SolidWorks amb una rigidesa òptima per a l'ús diari en botiga.",
     detail: 'Pes total conjunt: 13,652 kg inclosos nanses, contenidors i elements auxiliars.',
     color: '#c84b5a',
@@ -12,7 +12,7 @@ export const cartParts = [
   {
     id: 'plataformes',
     name: 'Plataformes Regulables',
-    icon: '≡',
+    icon: 'layers',
     description: 'Tres plataformes ajustables en alçada amb sistema mecànic de bloqueig. Permeten adaptar-se a cada càrrega i faciliten un millor ús de la capacitat del carro.',
     detail: 'Objectiu: passar de 17,05 embalums/carro actuals a >20 per viatge.',
     color: '#818cf8',
@@ -22,7 +22,7 @@ export const cartParts = [
   {
     id: 'rodes',
     name: 'Rodes Silencioses',
-    icon: '◎',
+    icon: 'wheel',
     description: 'Quatre rodes dissenyades per a passadissos de botiga: silencioses, estables i amb gir suau. Mínima resistència al desplaçament i manteniment baix.',
     detail: "Contribueixen a reduir els 37,6 m de recorregut innecessari per càrrega mesurats a l'estudi de camp.",
     color: '#34d399',
@@ -32,7 +32,7 @@ export const cartParts = [
   {
     id: 'nanses',
     name: 'Nanses Ergonòmiques',
-    icon: '⊃',
+    icon: 'grip',
     description: "Nanses laterals dissenyades per a un ús prolongat. Redueixen la fatiga en torns amb múltiples càrregues i milloren el control del carro en maniobres.",
     detail: 'Objectiu post-pilot: valoració ergonòmica ≥7/10 per part dels reponedors.',
     color: '#fbbf24',
@@ -42,7 +42,7 @@ export const cartParts = [
   {
     id: 'contenidors',
     name: 'Contenidors de Residus',
-    icon: '⊞',
+    icon: 'container',
     description: 'Compartiments integrats a la part inferior per a cartró i plàstic. Eliminen la necessitat de desplaçaments addicionals per gestionar residus durant la reposició.',
     detail: "Objectiu: absorbir el 100% dels residus per càrrega. Impacte ambiental positiu alineat amb la política de sostenibilitat de Bon Preu.",
     color: '#4ade80',
@@ -52,7 +52,7 @@ export const cartParts = [
   {
     id: 'bloqueig',
     name: 'Sistema de Bloqueig',
-    icon: '⊕',
+    icon: 'lock',
     description: 'Mecanisme mecànic que fixa les plataformes a la posició desitjada. Dissenyat per operar fàcilment amb una sola mà sense necessitat d\'eines.',
     detail: 'Punts de validació al pilot: resistència, risc d\'atrapaments i càrrega màxima per plataforma.',
     color: '#fb923c',

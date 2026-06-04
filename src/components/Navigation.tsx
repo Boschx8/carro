@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 
 const links = [
-  { href: '#problema', label: 'Problema' },
+  { href: '#origen', label: 'Origen' },
+  { href: '#problema', label: 'Diagnosi' },
   { href: '#carro', label: 'Carro 3D' },
-  { href: '#dades', label: 'Dades' },
   { href: '#roi', label: 'ROI' },
   { href: '#pilot', label: 'Pilot' },
 ]

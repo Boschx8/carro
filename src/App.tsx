@@ -3,9 +3,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
+import Origin from './components/Origin'
 import Problem from './components/Problem'
 import CartViewer from './components/CartViewer'
-import DataSection from './components/DataSection'
 import ROISection from './components/ROISection'
 import PilotSection from './components/PilotSection'
 
@@ -20,9 +20,9 @@ export default function App() {
     <>
       <Navigation />
       <Hero />
+      <Origin />
       <Problem />
       <CartViewer />
-      <DataSection />
       <ROISection />
       <PilotSection />
     </>
