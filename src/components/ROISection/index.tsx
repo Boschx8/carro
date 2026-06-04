@@ -76,6 +76,58 @@ export default function ROISection() {
           </div>
         </div>
 
+        {/* Proveïdors */}
+        <div ref={(el) => { cardsRef.current[6] = el }} className="opacity-0 my-28">
+          <div className="text-center mb-10">
+            <p className="text-slate-500 text-xs uppercase tracking-widest mb-2">3 proveïdors contactats</p>
+            <h3 className="text-white font-black text-2xl">Selecció de proveïdor</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                nom: 'I+',
+                cost: '875 €',
+                sub: '+ importació',
+                tag: 'Opció econòmica',
+                desc: 'Muntat a la Xina. Aranzels variables.',
+                note: 'Risc de qualitat i incidències',
+              },
+              {
+                nom: 'Loginetics',
+                cost: '900 €',
+                sub: '+ importació',
+                tag: 'Opció estàndard',
+                desc: 'Peces importades, muntatge a Espanya.',
+                note: 'Qualitat · Recanvis · Flexibilitat',
+              },
+              {
+                nom: 'moving.BCN',
+                cost: '1.800 €',
+                sub: '/unitat',
+                tag: 'Opció premium',
+                desc: 'Sense detall tècnic disponible.',
+                note: 'Cost molt superior',
+              },
+            ].map((p) => (
+              <div
+                key={p.nom}
+                className="p-10 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 transition-colors duration-300"
+              >
+                <div className="mb-6">
+                  <div className="text-slate-500 text-xs uppercase tracking-widest mb-2">{p.tag}</div>
+                  <div className="text-white font-black text-3xl">{p.nom}</div>
+                </div>
+                <div className="mb-6">
+                  <span className="text-5xl font-black text-white">{p.cost}</span>
+                  <span className="text-slate-500 text-base ml-2">{p.sub}</span>
+                </div>
+                <div className="text-slate-400 text-sm mb-3 leading-relaxed">{p.desc}</div>
+                <div className="text-xs text-slate-600 font-medium">{p.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
           {/* Cost table */}
           <div

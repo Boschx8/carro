@@ -79,11 +79,11 @@ export default function Origin() {
         <div ref={quoteRef} className="mb-16">
           <div className="relative p-10 md:p-14 rounded-2xl border border-[#9B2335]/25 bg-[#9B2335]/6 text-center">
             <div className="text-6xl text-[#9B2335]/30 font-black leading-none mb-6">"</div>
-            <p className="text-white text-xl md:text-2xl font-medium leading-relaxed max-w-3xl mx-auto">
+            <div className="text-white text-xl md:text-2xl font-medium leading-relaxed max-w-3xl mx-auto text-center">
               Si nosaltres mateixos ho hem de fer cada dia,{' '}
               <span className="text-[#c84b5a] font-bold">com el podem millorar?</span>{' '}
               No per a nosaltres, sinó per a les persones que ho fan de veritat.
-            </p>
+            </div>
             <div className="mt-8 text-slate-500 text-sm tracking-widest uppercase">
               Projecte BPTalent 4.0 · Grup Bon Preu
             </div>
