@@ -161,8 +161,10 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
   const polePositions: [number, number, number][] = [
     [-0.38, 0.1, 0.28], [0.38, 0.1, 0.28], [-0.38, 0.1, -0.28], [0.38, 0.1, -0.28],
   ]
+  const WR = 0.11 // wheel radius
   const wheelPositions: [number, number, number][] = [
-    [-0.32, -0.84, 0.23], [0.32, -0.84, 0.23], [-0.32, -0.84, -0.23], [0.32, -0.84, -0.23],
+    [-0.32, -0.70 - WR, 0.23], [0.32, -0.70 - WR, 0.23],
+    [-0.32, -0.70 - WR, -0.23], [0.32, -0.70 - WR, -0.23],
   ]
 
   return (
@@ -186,7 +188,7 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
         <mesh position={[-0.38, 0.89, 0]}><boxGeometry args={[0.024, 0.024, 0.56]} /><meshStandardMaterial {...frameProps('estructura')} /></mesh>
         <mesh position={[0.38, 0.89, 0]}><boxGeometry args={[0.024, 0.024, 0.56]} /><meshStandardMaterial {...frameProps('estructura')} /></mesh>
         {/* Mid/bottom rails */}
-        {[0.28, -0.22, -0.64].flatMap((y, ri) =>
+        {[0.74, 0.28, -0.22, -0.64].flatMap((y, ri) =>
           [0.28, -0.28].map((z, zi) => (
             <mesh key={`mr${ri}${zi}`} position={[0, y, z]}>
               <boxGeometry args={[0.76, 0.020, 0.020]} />
@@ -198,7 +200,7 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
 
       {/* ── PLATAFORMES ── */}
       <PartGroup id="plataformes" label="Plataformes" labelPos={[0.5, 0.3, 0.35]} selectedId={selectedId} onSelect={onSelect}>
-        {[0.29, -0.21, -0.63].map((y, i) => (
+        {[0.75, 0.29, -0.21, -0.63].map((y, i) => (
           <mesh key={`sh${i}`} position={[0, y, 0]}>
             <boxGeometry args={[0.7, 0.026, 0.5]} />
             <meshStandardMaterial {...shelfProps('plataformes')} />
@@ -208,15 +210,37 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
 
       {/* ── RODES ── */}
       <PartGroup id="rodes" label="Rodes" labelPos={[0, -1.1, 0.4]} selectedId={selectedId} onSelect={onSelect}>
-        {wheelPositions.map((pos, i) => (
+        {wheelPositions.map(([wx, wy, wz], i) => (
           <group key={`w${i}`}>
-            <mesh position={pos} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.09, 0.09, 0.058, 20]} />
+            {/* Placa de muntatge */}
+            <mesh position={[wx, wy + WR + 0.005, wz]}>
+              <boxGeometry args={[0.085, 0.012, 0.085]} />
+              <meshStandardMaterial color="#8890a0" metalness={0.75} roughness={0.25} transparent opacity={op('rodes')} />
+            </mesh>
+            {/* Forquilla / cos del caster */}
+            <mesh position={[wx, wy + WR * 0.42, wz]}>
+              <boxGeometry args={[0.016, WR * 0.85, 0.048]} />
+              <meshStandardMaterial color="#7a8292" metalness={0.65} roughness={0.35} transparent opacity={op('rodes')} />
+            </mesh>
+            {/* Pneumàtic de goma (negre) */}
+            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[WR, WR, 0.07, 28]} />
               <meshStandardMaterial {...wheelProps} />
             </mesh>
-            <mesh position={pos} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.026, 0.026, 0.065, 10]} />
-              <meshStandardMaterial color="#c0c4c8" metalness={0.90} roughness={0.10} transparent opacity={op('rodes')} />
+            {/* Hub (disc gris gran) */}
+            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[WR * 0.68, WR * 0.68, 0.074, 20]} />
+              <meshStandardMaterial color="#8090a8" metalness={0.72} roughness={0.22} transparent opacity={op('rodes')} />
+            </mesh>
+            {/* Eix central */}
+            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.013, 0.013, 0.08, 10]} />
+              <meshStandardMaterial color="#c0c4c8" metalness={0.92} roughness={0.10} transparent opacity={op('rodes')} />
+            </mesh>
+            {/* Fre (paleta negra) */}
+            <mesh position={[wx + (wx > 0 ? 0.055 : -0.055), wy - WR * 0.3, wz]}>
+              <boxGeometry args={[0.038, 0.022, 0.04]} />
+              <meshStandardMaterial color="#1a1a1a" metalness={0.05} roughness={0.9} transparent opacity={op('rodes')} />
             </mesh>
           </group>
         ))}
@@ -248,23 +272,23 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
 
       {/* ── CONTENIDORS ── */}
       <PartGroup id="contenidors" label="Contenidors" labelPos={[0, -0.56, 0.45]} selectedId={selectedId} onSelect={onSelect}>
-        {/* Groc - cartró */}
-        <mesh position={[-0.19, -0.73, 0]}>
+        {/* Groc - cartró — sobre la plataforma inferior */}
+        <mesh position={[-0.19, -0.50, 0]}>
           <boxGeometry args={[0.3, 0.23, 0.44]} />
           <meshStandardMaterial {...binProps('contenidors')} color="#A89A18" />
         </mesh>
         {/* Blau - plàstic */}
-        <mesh position={[0.19, -0.73, 0]}>
+        <mesh position={[0.19, -0.50, 0]}>
           <boxGeometry args={[0.3, 0.23, 0.44]} />
           <meshStandardMaterial {...binProps('contenidors')} color="#2448A8" />
         </mesh>
         {/* Frontal groc */}
-        <mesh position={[-0.19, -0.67, 0.225]}>
+        <mesh position={[-0.19, -0.44, 0.225]}>
           <boxGeometry args={[0.2, 0.07, 0.005]} />
           <meshStandardMaterial color="#C0B020" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
         </mesh>
         {/* Frontal blau */}
-        <mesh position={[0.19, -0.67, 0.225]}>
+        <mesh position={[0.19, -0.44, 0.225]}>
           <boxGeometry args={[0.2, 0.07, 0.005]} />
           <meshStandardMaterial color="#2A52C0" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
         </mesh>

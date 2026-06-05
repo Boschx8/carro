@@ -53,7 +53,7 @@ function CartScene({
       <pointLight position={[4, 5, 4]} intensity={90} color="#fff5e8" />
       <pointLight position={[-4, -2, 3]} intensity={50} color="#e8f0ff" />
       <pointLight position={[0, 3, -3]} intensity={30} color="#ffffff" />
-      <ContactShadows position={[0, -1.0, 0]} opacity={0.4} scale={4} blur={2} far={2} color="#000000" />
+      <ContactShadows position={[0, -0.81, 0]} opacity={0.4} scale={4} blur={2} far={2} color="#000000" />
       <CartModel selectedId={selectedId} onSelect={handleSelect} autoRotate={!selectedId} />
       <CameraControls
         ref={controlsRef}

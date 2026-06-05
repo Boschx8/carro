@@ -169,6 +169,44 @@ export default function PilotSection() {
           </div>
         </div>
 
+        {/* Oficina Tècnica */}
+        <div className="mt-16 rounded-2xl border border-white/8 bg-white/3 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-5">
+            <div className="md:col-span-2 p-8 md:p-10 border-b md:border-b-0 md:border-r border-white/5 flex flex-col justify-center">
+              <div className="text-slate-500 text-xs uppercase tracking-widest mb-3">Responsable de mesura</div>
+              <h3 className="text-white font-black text-3xl mb-2">Oficina<br />Tècnica</h3>
+              <div className="h-0.5 w-10 rounded-full bg-[#9B2335] mt-2" />
+            </div>
+            <div className="md:col-span-3 p-8 md:p-10">
+              <p className="text-slate-300 text-base leading-relaxed mb-6">
+                L'equip d'Oficina Tècnica seria l'encarregat de <strong className="text-white">mesurar l'impacte real del pilot</strong>. Haurien de realitzar treball de camp a les botigues pilot per recollir dades comparables amb les observacions inicials i validar que la millora és efectiva.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  {
+                    svg: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+                    label: 'Treball de camp', desc: 'Observació directa a botiga',
+                  },
+                  {
+                    svg: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+                    label: 'Mesura de KPIs', desc: 'Recollida de dades reals',
+                  },
+                  {
+                    svg: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+                    label: 'Validació', desc: 'Confirmació de la millora',
+                  },
+                ].map((item) => (
+                  <div key={item.label} className="p-4 rounded-xl bg-white/3 border border-white/5">
+                    <div className="text-[#c84b5a] mb-2">{item.svg}</div>
+                    <div className="text-white text-sm font-semibold mb-1">{item.label}</div>
+                    <div className="text-slate-500 text-xs">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Final recommendation box */}
         <div className="mt-16 p-8 rounded-2xl border border-[#9B2335]/25 bg-[#9B2335]/6 text-center">
           <div className="flex justify-center mb-4 text-[#c84b5a]"><svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
