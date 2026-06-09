@@ -5,8 +5,16 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
   ScatterChart, Scatter, ZAxis, CartesianGrid,
 } from 'recharts'
-import { embalumsData, tasquesData, metresData, pesData } from '../../data/projectData'
+import { embalumsData, tasquesData, metresData } from '../../data/projectData'
 import { IconBox, IconClock, IconArrows, IconRecycle } from '../Icons'
+
+const residusExtra = {
+  num: '04',
+  Icon: IconRecycle,
+  title: 'Residus no integrats',
+  desc: 'Sense espai per a cartró i plàstic, el treballador acumula residus al terra o fa viatges addicionals al punt de reciclatge. Això genera risc de seguretat i pèrdua de temps en cada càrrega.',
+  color: '#4ade80',
+}
 
 const scatterData = Array.from({ length: 180 }, () => ({
   embalums: Math.max(5, Math.round(Math.random() * 30 + 5)),
@@ -84,18 +92,6 @@ const problems = [
     color: '#f87171',
     data: metresData,
     chartLabel: 'Distribució metres innecessaris',
-  },
-  {
-    num: '04',
-    Icon: IconRecycle,
-    title: 'Residus no integrats',
-    desc: "Sense espai per a cartró i plàstic, el treballador acumula residus al terra o fa viatges addicionals. El pes del carro mostra que hi ha marge per absorbir-los.",
-    stat: '9,54',
-    unit: 'kg pes mitjà',
-    target: 'Marge disponible per portar més',
-    color: '#4ade80',
-    data: pesData,
-    chartLabel: 'Distribució pes carro ple (kg)',
   },
 ]
 
@@ -190,6 +186,25 @@ export default function Problem() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Residus — targeta descriptiva sense gràfica */}
+        <div className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden">
+          <div className="p-10 md:p-16 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
+            <div className="flex items-center gap-4 shrink-0">
+              <div style={{ color: residusExtra.color }}><residusExtra.Icon className="w-10 h-10" /></div>
+              <span className="text-slate-600 font-black text-xl">{residusExtra.num}</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-white font-black text-2xl mb-4">{residusExtra.title}</h3>
+              <p className="text-slate-400 text-lg leading-relaxed">{residusExtra.desc}</p>
+            </div>
+            <div className="shrink-0 p-6 rounded-2xl border text-center" style={{ borderColor: `${residusExtra.color}30`, background: `${residusExtra.color}08` }}>
+              <div className="text-slate-400 text-xs uppercase tracking-widest mb-2">Solució proposada</div>
+              <div className="text-white font-bold text-sm">Contenidors integrats</div>
+              <div className="text-slate-500 text-xs mt-1">cartró + plàstic</div>
+            </div>
+          </div>
         </div>
 
         {/* ── CONCLUSIONS ── */}

@@ -232,6 +232,79 @@ export default function ROISection() {
           </div>
         </div>
 
+        {/* Salary breakdown table */}
+        <div
+          ref={(el) => { cardsRef.current[7] = el }}
+          className="opacity-0 mt-10 rounded-2xl border border-white/8 bg-white/3 overflow-hidden"
+        >
+          <div className="px-6 py-5 border-b border-white/8">
+            <h3 className="text-white font-bold text-xl mb-1">D'on surten els 95.078 €?</h3>
+            <p className="text-slate-500 text-sm">
+              Valor anual del temps alliberat · Botiga tipus · 50 treballadors · Millora estimada del <span className="text-white font-semibold">20,9%</span> del temps de reposició · SS empresa +32%
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/5">
+                  <th className="px-6 py-3 text-slate-500 text-xs font-medium text-left">Perfil</th>
+                  <th className="px-6 py-3 text-slate-500 text-xs font-medium text-right">Cost empresa (SS)</th>
+                  <th className="px-6 py-3 text-slate-500 text-xs font-medium text-right">% reposició</th>
+                  <th className="px-6 py-3 text-slate-500 text-xs font-medium text-right">Persones</th>
+                  <th className="px-6 py-3 text-slate-500 text-xs font-medium text-right">Estalvi anual</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { perfil: 'Gerent',                  cost: '47.520 €', pct: '1%',  n: 1,  estalvi: '99 €',     dim: false },
+                  { perfil: 'Cap de torn reposició',   cost: '32.340 €', pct: '40%', n: 1,  estalvi: '2.702 €',  dim: false },
+                  { perfil: 'Cap de torn frescos',     cost: '34.980 €', pct: '10%', n: 1,  estalvi: '731 €',    dim: false },
+                  { perfil: 'Responsable torn de nit', cost: '27.060 €', pct: '80%', n: 1,  estalvi: '4.522 €',  dim: false },
+                  { perfil: 'Reponedors torn de nit',  cost: '22.551 €', pct: '95%', n: 5,  estalvi: '22.375 €', dim: false },
+                  { perfil: 'Reponedors torn de dia',  cost: '22.551 €', pct: '90%', n: 10, estalvi: '42.394 €', dim: true  },
+                  { perfil: 'Caixers',                 cost: '22.551 €', pct: '15%', n: 15, estalvi: '10.599 €', dim: false },
+                  { perfil: 'Treballadors de frescos', cost: '23.252 €', pct: '15%', n: 16, estalvi: '11.657 €', dim: false },
+                ].map((row, i) => (
+                  <tr key={i} className={`border-b border-white/5 transition-colors ${row.dim ? 'bg-[#9B2335]/6' : i % 2 === 0 ? 'bg-white/1' : ''}`}>
+                    <td className="px-6 py-3 text-slate-300 text-sm">{row.perfil}</td>
+                    <td className="px-6 py-3 text-slate-400 text-sm text-right">{row.cost}</td>
+                    <td className="px-6 py-3 text-slate-400 text-sm text-right">{row.pct}</td>
+                    <td className="px-6 py-3 text-slate-400 text-sm text-right">{row.n}</td>
+                    <td className="px-6 py-3 text-white font-semibold text-sm text-right">{row.estalvi}</td>
+                  </tr>
+                ))}
+                <tr className="bg-[#9B2335]/8 border-t border-[#9B2335]/20">
+                  <td className="px-6 py-3 text-white font-bold text-sm">Total botiga tipus</td>
+                  <td className="px-6 py-3 text-slate-500 text-sm text-right">—</td>
+                  <td className="px-6 py-3 text-slate-500 text-sm text-right">—</td>
+                  <td className="px-6 py-3 text-white font-bold text-sm text-right">50</td>
+                  <td className="px-6 py-3 text-[#c84b5a] font-black text-sm text-right">95.078 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-slate-600 text-xs">
+              Fórmula: cost empresa (brut + 32% SS) × % jornada en reposició × nº persones × 20,9% millora estimada
+            </p>
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="text-slate-400 text-sm">95.078 €</span>
+                <span className="text-slate-600 text-xs">brut alliberat</span>
+              </div>
+              <span className="text-slate-600">−</span>
+              <div className="flex items-center gap-2">
+                <span className="text-slate-400 text-sm">480 €</span>
+                <span className="text-slate-600 text-xs">cost 2 carros/any</span>
+              </div>
+              <span className="text-slate-600">=</span>
+              <div className="px-3 py-1 rounded-lg bg-[#c84b5a]/15 border border-[#c84b5a]/30">
+                <span className="text-[#c84b5a] font-black text-sm">94.598 € net</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Big ROI numbers */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
           {roiNumbers.map((item, i) => (
