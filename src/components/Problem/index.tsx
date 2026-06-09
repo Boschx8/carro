@@ -7,6 +7,7 @@ import {
 } from 'recharts'
 import { embalumsData, tasquesData, metresData } from '../../data/projectData'
 import { IconBox, IconClock, IconArrows, IconRecycle } from '../Icons'
+import CataloniaMap, { VISITED_STORES } from './CataloniaMap'
 
 const residusExtra = {
   num: '04',
@@ -150,6 +151,39 @@ export default function Problem() {
             <p className="text-slate-400 text-lg max-w-2xl text-center">
               L'eina actual força el treballador a adaptar-se a ella. El carro ideal ha de ser al revés: adaptar-se al procés real de reposició.
             </p>
+          </div>
+        </div>
+
+        {/* ── MAPA DE BOTIGUES ── */}
+        <div className="mb-24">
+          <div className="text-center mb-8">
+            <p className="text-slate-500 text-xs uppercase tracking-widest mb-3">Dades de camp</p>
+            <h3 className="text-white font-black text-2xl mb-2">On hem observat</h3>
+            <div className="flex justify-center">
+              <p className="text-slate-400 text-sm max-w-xl text-center">
+                Les 180 observacions manuals es van recollir en les botigues marcades al mapa
+              </p>
+            </div>
+          </div>
+
+          <CataloniaMap />
+
+          {/* Store legend */}
+          <div className="flex flex-wrap justify-center gap-2 mt-5">
+            {[
+              { label: 'Esclat Mollet del Vallès' },
+              { label: 'Esclat Santa Perpètua' },
+              { label: 'Esclat Canovelles' },
+              { label: 'Bon Preu Barcelona ×6' },
+            ].map(s => (
+              <div
+                key={s.label}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/8 bg-white/3"
+              >
+                <div className="w-2 h-2 rounded-full bg-[#c84b5a] shrink-0" style={{ boxShadow: '0 0 5px #9B2335' }} />
+                <span className="text-slate-400 text-xs">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
