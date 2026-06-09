@@ -7,7 +7,7 @@ import {
 } from 'recharts'
 import { embalumsData, tasquesData, metresData } from '../../data/projectData'
 import { IconBox, IconClock, IconArrows, IconRecycle } from '../Icons'
-import CataloniaMap, { VISITED_STORES } from './CataloniaMap'
+import CataloniaMap from './CataloniaMap'
 
 const residusExtra = {
   num: '04',
