@@ -61,6 +61,17 @@ export const cartParts = [
   },
 ]
 
+export const solidworksRenders = [
+  { src: '/solidworks/01-carro-complet.jpg', title: 'Conjunt complet', desc: 'Vista general del carro amb les tres plataformes i els contenidors de residus.' },
+  { src: '/solidworks/02-prestatgeria.jpg', title: 'Prestatgeria i nanses', desc: "Detall de l'estructura, les plataformes regulables i les nanses laterals." },
+  { src: '/solidworks/03-plataforma.jpg', title: 'Plataforma regulable', desc: 'Safata individual amb sistema de regulació en alçada.' },
+  { src: '/solidworks/04-detall-fixacio.jpg', title: 'Sistema de fixació', desc: "Detall dels punts de fixació i bloqueig de l'estructura d'alumini." },
+  { src: '/solidworks/05-rodes-muntades.jpg', title: 'Rodes muntades', desc: 'Conjunt de quatre rodes muntades a la base del carro.' },
+  { src: '/solidworks/06-roda-detall.jpg', title: 'Roda silenciosa', desc: 'Detall de la roda amb fre, dissenyada per a passadissos de botiga.' },
+  { src: '/solidworks/07-nansa.jpg', title: 'Nansa ergonòmica', desc: 'Disseny de la nansa lateral per a un agafament còmode.' },
+  { src: '/solidworks/08-caixa-bonpreuesclat.jpg', title: 'Contenidor de referència', desc: 'Caixa Bonpreu/Esclat utilitzada com a referència de mides per als contenidors.' },
+]
+
 export const problemStats = [
   { value: 1800, label: 'observacions', sublabel: 'de camp agregades', suffix: '', decimals: 0, color: '#c84b5a' },
   { value: 17.05, label: 'embalums', sublabel: 'per carro (mitjana)', suffix: '', decimals: 2, color: '#818cf8' },

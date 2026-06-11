@@ -59,7 +59,7 @@ const problems = [
     desc: "Els carros no s'omplen al màxim. La limitació és d'usabilitat i accessibilitat, no de capacitat física del carro.",
     stat: '17,05',
     unit: 'embalums/carro',
-    target: 'Objectiu: >20 embalums (+17%)',
+    target: 'Objectiu: >20,5 embalums (+20%)',
     color: '#c84b5a',
     data: embalumsData,
     chartLabel: 'Distribució embalums per carro',
@@ -71,7 +71,7 @@ const problems = [
     desc: 'Per càrrega, el treballador dedica més d\'un minut a buscar espai per a residus, reajustar productes o recol·locar embalums.',
     stat: '78',
     unit: 's per càrrega',
-    target: 'Objectiu: <55 s (−30%)',
+    target: 'Objectiu: <62 s (−20%)',
     color: '#fbbf24',
     data: tasquesData,
     chartLabel: 'Distribució temps tasques banals',
@@ -83,7 +83,7 @@ const problems = [
     desc: "La manca d'eines integrades genera desplaçaments addicionals per gestionar residus i buscar elements, saturant passadissos.",
     stat: '37,6',
     unit: 'm per càrrega',
-    target: 'Objectiu: <26 m (−30%)',
+    target: 'Objectiu: <30 m (−20%)',
     color: '#f87171',
     data: metresData,
     chartLabel: 'Distribució metres innecessaris',
@@ -240,7 +240,7 @@ export default function Problem() {
           <div className="px-6 py-4 border-b border-white/5">
             <p className="text-[#c84b5a] text-xs font-semibold tracking-widest uppercase">Objectius del nou carro</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
             {problems.map((p) => (
               <div key={p.num} className="p-5 text-center">
                 <div className="text-xs text-slate-500 mb-2">{p.title}</div>

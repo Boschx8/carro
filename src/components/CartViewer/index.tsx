@@ -2,9 +2,9 @@ import { useRef, useState, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { CameraControls, ContactShadows } from '@react-three/drei'
 import { AnimatePresence, motion } from 'framer-motion'
-import { cartParts } from '../../data/projectData'
+import { cartParts, solidworksRenders } from '../../data/projectData'
 import CartModel from './CartModel'
-import { IconStructure, IconLayers, IconWheel, IconGrip, IconContainer, IconLock } from '../Icons'
+import { IconStructure, IconLayers, IconWheel, IconGrip, IconContainer, IconLock, IconImages } from '../Icons'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   structure: IconStructure, layers: IconLayers, wheel: IconWheel,
@@ -114,8 +114,80 @@ function InfoPanelContent({
   )
 }
 
+function SolidworksModal({ onClose }: { onClose: () => void }) {
+  const [index, setIndex] = useState(0)
+  const render = solidworksRenders[index]
+
+  const goPrev = () => setIndex((i) => (i - 1 + solidworksRenders.length) % solidworksRenders.length)
+  const goNext = () => setIndex((i) => (i + 1) % solidworksRenders.length)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.96, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ type: 'spring', damping: 26, stiffness: 280 }}
+        className="relative w-full max-w-3xl rounded-2xl border border-white/10 bg-[#161616] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/50 border border-white/10 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+        >
+          ✕
+        </button>
+
+        <div className="relative bg-white flex items-center justify-center h-[260px] md:h-[420px]">
+          <img src={render.src} alt={render.title} className="max-h-full max-w-full object-contain" />
+
+          <button
+            onClick={goPrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 border border-white/10 text-white flex items-center justify-center hover:bg-black/60 transition-colors"
+          >
+            ←
+          </button>
+          <button
+            onClick={goNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 border border-white/10 text-white flex items-center justify-center hover:bg-black/60 transition-colors"
+          >
+            →
+          </button>
+        </div>
+
+        <div className="p-5">
+          <div className="flex items-center justify-between gap-4 mb-1">
+            <h4 className="text-white font-bold text-lg">{render.title}</h4>
+            <span className="text-slate-500 text-xs shrink-0">{index + 1} / {solidworksRenders.length}</span>
+          </div>
+          <div className="text-slate-400 text-sm">{render.desc}</div>
+        </div>
+
+        <div className="flex gap-2 px-5 pb-5 overflow-x-auto">
+          {solidworksRenders.map((r, i) => (
+            <button
+              key={r.src}
+              onClick={() => setIndex(i)}
+              className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${i === index ? 'border-[#c84b5a]' : 'border-white/10 hover:border-white/30'}`}
+            >
+              <img src={r.src} alt={r.title} className="w-full h-full object-cover bg-white" />
+            </button>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export default function CartViewer() {
   const [selectedId, setSelectedId] = useState<PartId | null>(null)
+  const [showSolidworks, setShowSolidworks] = useState(false)
   const selectedPart = cartParts.find((p) => p.id === selectedId)
   const selectedIdx = cartParts.findIndex((p) => p.id === selectedId)
   const hasNext = selectedIdx >= 0 && selectedIdx < cartParts.length - 1
@@ -214,7 +286,22 @@ export default function CartViewer() {
           )}
         </AnimatePresence>
 
+        {/* Botó captures SolidWorks */}
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setShowSolidworks(true)}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border border-white/10 bg-white/3 text-slate-300 hover:text-white hover:border-[#c84b5a]/50 hover:bg-[#9B2335]/10 transition-all duration-200"
+          >
+            <IconImages className="w-4 h-4" />
+            Veure disseny real a SolidWorks
+          </button>
+        </div>
+
       </div>
+
+      <AnimatePresence>
+        {showSolidworks && <SolidworksModal onClose={() => setShowSolidworks(false)} />}
+      </AnimatePresence>
     </section>
   )
 }
