@@ -138,8 +138,8 @@ export const pilotPhases = [
     duration: 'Continu',
     carros: '1.052 carros',
     cost: '157.800 €/any',
-    desc: 'Revisió anual de KPIs. Manteniment preventiu via proveïdor. Incorporació digital Axional + balança + escàner si la Fase 1 ho valida.',
+    desc: 'Revisió anual de KPIs. Manteniment preventiu via proveïdor.',
     color: '#10b981',
-    kpis: ['KPI anual', 'Mant. preventiu', 'Fase 2 digital'],
+    kpis: ['KPI anual', 'Mant. preventiu'],
   },
 ]

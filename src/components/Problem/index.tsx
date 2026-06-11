@@ -3,7 +3,6 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
-  ScatterChart, Scatter, ZAxis, CartesianGrid,
 } from 'recharts'
 import { embalumsData, tasquesData, metresData } from '../../data/projectData'
 import { IconBox, IconClock, IconArrows, IconRecycle } from '../Icons'
@@ -16,11 +15,6 @@ const residusExtra = {
   desc: 'Sense espai per a cartró i plàstic, el treballador acumula residus al terra o fa viatges addicionals al punt de reciclatge. Això genera risc de seguretat i pèrdua de temps en cada càrrega.',
   color: '#4ade80',
 }
-
-const scatterData = Array.from({ length: 180 }, () => ({
-  embalums: Math.max(5, Math.round(Math.random() * 30 + 5)),
-  temps: Math.max(25, Math.round(35 + Math.random() * 30 + (Math.random() > 0.5 ? 5 : -5))),
-}))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -254,39 +248,6 @@ export default function Problem() {
                 <div className="text-xs font-medium" style={{ color: p.color }}>→ {p.target}</div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* ── SCATTER: embalums vs temps ── */}
-        <div className="mt-8 rounded-2xl border border-white/8 bg-white/3 p-6">
-          <div className="mb-4">
-            <h4 className="text-white font-bold text-lg mb-1">Embalums vs Temps per col·locar 1 bulto</h4>
-            <p className="text-[#c84b5a] text-sm">Sense correlació clara · N≈180 mostres</p>
-          </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <ScatterChart margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
-              <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
-              <XAxis dataKey="embalums" type="number" name="Embalums" domain={[5, 35]}
-                tick={{ fill: '#475569', fontSize: 10 }} axisLine={false}
-                label={{ value: 'Embalums per carro', position: 'bottom', fill: '#475569', fontSize: 10 }} />
-              <YAxis dataKey="temps" type="number" name="Temps" domain={[20, 70]}
-                tick={{ fill: '#475569', fontSize: 10 }} axisLine={false}
-                label={{ value: 'Temps per bulto (s)', angle: -90, position: 'insideLeft', fill: '#475569', fontSize: 10 }} />
-              <ZAxis range={[20, 20]} />
-              <Tooltip cursor={{ strokeDasharray: '3 3', stroke: 'rgba(255,255,255,0.1)' }}
-                content={({ active, payload }) => active && payload?.length ? (
-                  <div className="bg-[#1a1a1a] border border-white/10 rounded px-2 py-1">
-                    <p className="text-white text-xs">{payload[0]?.value} embalums · {payload[1]?.value}s</p>
-                  </div>
-                ) : null} />
-              <Scatter data={scatterData} fill="#9B2335" opacity={0.6} />
-            </ScatterChart>
-          </ResponsiveContainer>
-          <div className="mt-4 p-4 rounded-xl bg-[#9B2335]/8 border border-[#9B2335]/20">
-            <p className="text-[#e07080] text-center text-base italic">
-              "Carregar més producte <strong className="text-white not-italic">no empitjora</strong> el temps unitari.
-              La limitació és el disseny del carro, no el treballador."
-            </p>
           </div>
         </div>
 

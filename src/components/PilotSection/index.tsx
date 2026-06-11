@@ -9,9 +9,8 @@ const kpis = [
   { kpi: 'Embalums per carro', actual: '17,05', obj: '>20', unit: 'embalums', color: '#c84b5a' },
   { kpi: 'Tasques banals/carro', actual: '78 s', obj: '<55 s', unit: 'per càrrega', color: '#fbbf24' },
   { kpi: 'Metres innecessaris', actual: '37,6 m', obj: '<26 m', unit: 'per càrrega', color: '#f87171' },
-  { kpi: 'Fatiga percebuda', actual: '—', obj: '≥7/10', unit: 'enquesta post-pilot', color: '#4ade80' },
-  { kpi: 'Satisfacció reponedors', actual: '—', obj: '≥80%', unit: 'ús regular', color: '#818cf8' },
-  { kpi: 'Capacitat contenidors', actual: '0%', obj: '100%', unit: 'residus absorbits', color: '#34d399' },
+  { kpi: 'Satisfacció reponedors', actual: '—', obj: '↑ Augment', unit: 'enquesta post-pilot', color: '#818cf8' },
+  { kpi: 'Capacitat contenidors', actual: '—', obj: '↑ Augment', unit: 'residus absorbits', color: '#34d399' },
 ]
 
 export default function PilotSection() {
