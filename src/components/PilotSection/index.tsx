@@ -315,26 +315,82 @@ export default function PilotSection() {
           </div>
         </div>
 
-        {/* Final recommendation box */}
-        <div className="mt-16 p-8 rounded-2xl border border-[#9B2335]/25 bg-[#9B2335]/6 text-center">
-          <div className="flex justify-center mb-4 text-[#c84b5a]"><svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
-          <h3 className="text-2xl font-bold text-white mb-3">Recomanació final</h3>
-          <p className="text-slate-300 text-base leading-relaxed max-w-2xl mb-6 text-center" style={{ margin: '0 auto 1.5rem' }}>
-            Iniciar el pilot amb <strong className="text-white">Loginetics</strong> com a proveïdor de referència, mesurar els KPIs durant 3 mesos i prendre la decisió d'escalat <strong className="text-white">únicament en base a les dades reals</strong>.
-            El cost del pilot (272.700 €) és baix en relació al retorn potencial i al risc que es mitiga en no escalar sense validar.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
+        {/* ── COMUNICACIÓ ── */}
+        <div className="mt-28">
+          <div className="text-center mb-8">
+            <div className="text-[#c84b5a] text-xs uppercase tracking-widest mb-2">Difusió</div>
+            <h3 className="text-white font-black text-2xl mb-4">Comunicació a les botigues</h3>
+            <div className="flex justify-center">
+              <p className="text-slate-400 text-sm max-w-2xl text-center">
+                L'arribada dels carros a cada botiga es comunicarà per dues vies complementàries.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
             {[
-              { label: 'Proveïdor', value: 'Loginetics' },
-              { label: 'Cost referència', value: '900 €/carro' },
-              { label: 'Fase 1', value: '303 carros pilot' },
-              { label: 'Escalat', value: '3 anys' },
-            ].map(({ label, value }) => (
-              <div key={label} className="px-5 py-3 rounded-xl bg-[#9B2335]/10 border border-[#9B2335]/20 text-center">
-                <div className="text-[#c84b5a] text-xs font-medium mb-0.5">{label}</div>
-                <div className="text-white font-bold text-sm">{value}</div>
+              {
+                title: 'Caps de zona',
+                rol: 'Reunions setmanals amb gerents',
+                desc: "Els caps de zona informaran els gerents de botiga, a les reunions setmanals, sobre l'estat del pilot i la incorporació dels nous carros a la seva zona.",
+                color: '#4ade80',
+                svg: (
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                ),
+              },
+              {
+                title: 'Butlletí corporatiu',
+                rol: "Comunicat a l'establiment",
+                desc: "Es publicarà un comunicat al butlletí diari, amb el mateix format que la resta d'avisos, indicant el dia concret en què els carros arribaran a la botiga.",
+                color: '#818cf8',
+                svg: (
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 11l18-5v12L3 14v-3z"/>
+                    <path d="M11.6 16.8a3 3 0 1 1-5.2-3"/>
+                  </svg>
+                ),
+              },
+            ].map((d) => (
+              <div key={d.title} className="p-7 rounded-2xl border border-white/8 bg-white/3">
+                <div className="flex items-center gap-3 mb-4">
+                  <div style={{ color: d.color }}>{d.svg}</div>
+                  <span className="text-xs text-slate-500 uppercase tracking-widest">{d.rol}</span>
+                </div>
+                <h4 className="text-white font-black text-xl mb-3">{d.title}</h4>
+                <p className="text-slate-400 text-sm leading-relaxed">{d.desc}</p>
+                <div className="mt-5 h-0.5 w-10 rounded-full" style={{ backgroundColor: d.color }} />
               </div>
             ))}
+          </div>
+
+          {/* Mockup butlletí */}
+          <div className="max-w-2xl mx-auto">
+            <p className="text-slate-500 text-xs uppercase tracking-widest mb-3 text-center">Exemple de comunicat al butlletí corporatiu</p>
+            <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
+              <div className="bg-[#595959] px-6 py-2.5">
+                <span className="text-white text-sm font-medium">B: Corporativa</span>
+              </div>
+              <div className="bg-white px-6 py-5">
+                <h4 className="text-[#c84b5a] text-lg font-semibold mb-3 pb-3 border-b border-gray-200">
+                  Arribada del nou carro de reposició
+                </h4>
+                <p className="text-gray-900 text-sm font-bold mb-3">14/09/2026</p>
+                <p className="text-gray-800 text-sm leading-relaxed mb-3">
+                  Us informem que la setmana del 14 al 18 de setembre rebreu directament de proveïdor 2 unitats del nou carro de reposició dins del pilot que s'està duent a terme en una selecció d'establiments.
+                </p>
+                <p className="text-gray-800 text-sm leading-relaxed">
+                  <strong>Important: cal que el personal de reposició comenci a utilitzar el carro a partir del dilluns 21 de setembre</strong>, seguint les indicacions d'ús que us farà arribar el vostre cap de zona.
+                </p>
+              </div>
+              <div className="bg-white px-6 py-3 border-t border-gray-200">
+                <span className="text-gray-600 text-sm">JOAN VILA - Dept Logística - Joan.Vila@bonpreu.cat</span>
+              </div>
+            </div>
           </div>
         </div>
 
