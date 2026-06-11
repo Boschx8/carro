@@ -92,223 +92,250 @@ export default function CartModel({ selectedId, onSelect, autoRotate }: CartMode
     return 0.28
   }, [sel])
 
-  // Alumini gris clar (estructura metàl·lica)
-  const frameProps = (id: PartId) => ({
-    color: '#b0b8c2',
-    metalness: 0.88,
-    roughness: 0.18,
+  // Acer gris setinat (muntants i base)
+  const steelProps = (id: PartId) => ({
+    color: '#9aa0a8',
+    metalness: 0.82,
+    roughness: 0.4,
     emissive: em(id),
     emissiveIntensity: emI(id),
     transparent: op(id) < 1,
     opacity: op(id),
   })
 
-  // Fusta marró càlid (plataformes)
-  const shelfProps = (id: PartId) => ({
-    color: '#8B6020',
-    metalness: 0.0,
-    roughness: 0.78,
+  // Bigues de suport de les plataformes (gris una mica més fosc)
+  const beamProps = (id: PartId) => ({
+    color: '#878d97',
+    metalness: 0.8,
+    roughness: 0.42,
     emissive: em(id),
     emissiveIntensity: emI(id),
     transparent: op(id) < 1,
     opacity: op(id),
   })
 
-  // Rodes negres de goma
-  const wheelProps = {
-    color: '#1a1a1a',
-    metalness: 0.05,
-    roughness: 0.92,
-    emissive: em('rodes'),
-    emissiveIntensity: emI('rodes'),
-    transparent: op('rodes') < 1,
-    opacity: op('rodes'),
-  }
-
-  // Mànecs negres de plàstic dur
-  const handleProps = {
-    color: '#1c1c1e',
-    metalness: 0.08,
-    roughness: 0.85,
-    emissive: em('nanses'),
-    emissiveIntensity: emI('nanses'),
-    transparent: op('nanses') < 1,
-    opacity: op('nanses'),
-  }
-
-  // Contenidors: groc olivaci (cartró) i blau (plàstic)
-  const binProps = (id: PartId) => ({
-    color: '#A89A18',
+  // Fusta de faig clara (taulons de les plataformes)
+  const woodProps = (id: PartId) => ({
+    color: '#c2a069',
     metalness: 0.0,
-    roughness: 0.75,
+    roughness: 0.72,
     emissive: em(id),
     emissiveIntensity: emI(id),
-    transparent: true,
-    opacity: op(id) * 0.95,
+    transparent: op(id) < 1,
+    opacity: op(id),
   })
 
-  // Sistema de bloqueig: alumini fosc
-  const lockProps = {
-    color: '#888892',
-    metalness: 0.72,
-    roughness: 0.32,
-    emissive: em('bloqueig'),
-    emissiveIntensity: emI('bloqueig'),
-    transparent: op('bloqueig') < 1,
-    opacity: op('bloqueig'),
-  }
-
-  const polePositions: [number, number, number][] = [
+  // Geometria base
+  const POST_POS: [number, number, number][] = [
     [-0.38, 0.1, 0.28], [0.38, 0.1, 0.28], [-0.38, 0.1, -0.28], [0.38, 0.1, -0.28],
   ]
-  const WR = 0.11 // wheel radius
-  const wheelPositions: [number, number, number][] = [
-    [-0.32, -0.70 - WR, 0.23], [0.32, -0.70 - WR, 0.23],
-    [-0.32, -0.70 - WR, -0.23], [0.32, -0.70 - WR, -0.23],
+  const POST_H = 1.65
+  const SHELF_YS = [0.74, 0.28, -0.18] // 3 plataformes regulables
+  const HOLE_YS = Array.from({ length: 11 }, (_, i) => -0.45 + i * 0.13)
+
+  const WR = 0.11 // radi de la roda
+  const CASTER_POS: [number, number][] = [
+    [-0.34, 0.22], [0.34, 0.22], [-0.34, -0.22], [0.34, -0.22],
   ]
+  const PLATE_Y = -0.725
+  const WHEEL_Y = -0.82
 
   return (
     <group ref={groupRef} onClick={(e) => { if (e.object === e.eventObject) onSelect(null) }}>
       {/* ── ESTRUCTURA ── */}
-      <PartGroup id="estructura" label="Estructura" labelPos={[0, 1.1, 0.4]} selectedId={selectedId} onSelect={onSelect}>
-        {/* Vertical poles */}
-        {polePositions.map((pos, i) => (
-          <mesh key={`p${i}`} position={pos}>
-            <cylinderGeometry args={[0.023, 0.023, 1.6, 10]} />
-            <meshStandardMaterial {...frameProps('estructura')} />
-          </mesh>
-        ))}
-        {/* Top frame */}
-        {[0.28, -0.28].map((z, i) => (
-          <mesh key={`tf${i}`} position={[0, 0.89, z]}>
-            <boxGeometry args={[0.76, 0.024, 0.024]} />
-            <meshStandardMaterial {...frameProps('estructura')} />
-          </mesh>
-        ))}
-        <mesh position={[-0.38, 0.89, 0]}><boxGeometry args={[0.024, 0.024, 0.56]} /><meshStandardMaterial {...frameProps('estructura')} /></mesh>
-        <mesh position={[0.38, 0.89, 0]}><boxGeometry args={[0.024, 0.024, 0.56]} /><meshStandardMaterial {...frameProps('estructura')} /></mesh>
-        {/* Mid/bottom rails */}
-        {[0.74, 0.28, -0.22, -0.64].flatMap((y, ri) =>
-          [0.28, -0.28].map((z, zi) => (
-            <mesh key={`mr${ri}${zi}`} position={[0, y, z]}>
-              <boxGeometry args={[0.76, 0.020, 0.020]} />
-              <meshStandardMaterial {...frameProps('estructura')} />
+      <PartGroup id="estructura" label="Estructura" labelPos={[0, 1.05, 0.4]} selectedId={selectedId} onSelect={onSelect}>
+        {/* Muntants verticals (perfil rectangular tipus prestatgeria) */}
+        {POST_POS.map(([px, py, pz], i) => (
+          <group key={`post${i}`}>
+            <mesh position={[px, py, pz]}>
+              <boxGeometry args={[0.05, POST_H, 0.07]} />
+              <meshStandardMaterial {...steelProps('estructura')} />
             </mesh>
-          ))
-        )}
+            {/* Files de forats (cara frontal/posterior) */}
+            {HOLE_YS.map((hy, j) => (
+              <mesh key={`hole${i}-${j}`} position={[px, hy, pz]} rotation={[Math.PI / 2, 0, 0]}>
+                <cylinderGeometry args={[0.013, 0.013, 0.09, 12]} />
+                <meshStandardMaterial
+                  color="#26282e"
+                  metalness={0.3}
+                  roughness={0.7}
+                  transparent={op('estructura') < 1}
+                  opacity={op('estructura')}
+                />
+              </mesh>
+            ))}
+          </group>
+        ))}
+
+        {/* Base metàl·lica (safata on recolzen els contenidors) */}
+        <mesh position={[0, -0.70, 0]}>
+          <boxGeometry args={[0.84, 0.03, 0.62]} />
+          <meshStandardMaterial {...steelProps('estructura')} />
+        </mesh>
+        {/* Tauló de fusta de la base */}
+        <mesh position={[0, -0.665, 0]}>
+          <boxGeometry args={[0.74, 0.025, 0.5]} />
+          <meshStandardMaterial {...woodProps('estructura')} />
+        </mesh>
       </PartGroup>
 
       {/* ── PLATAFORMES ── */}
-      <PartGroup id="plataformes" label="Plataformes" labelPos={[0.5, 0.3, 0.35]} selectedId={selectedId} onSelect={onSelect}>
-        {[0.75, 0.29, -0.21, -0.63].map((y, i) => (
-          <mesh key={`sh${i}`} position={[0, y, 0]}>
-            <boxGeometry args={[0.7, 0.026, 0.5]} />
-            <meshStandardMaterial {...shelfProps('plataformes')} />
-          </mesh>
+      <PartGroup id="plataformes" label="Plataformes" labelPos={[0.55, 0.3, 0.35]} selectedId={selectedId} onSelect={onSelect}>
+        {SHELF_YS.map((sy, i) => (
+          <group key={`sh${i}`}>
+            {/* Bigues de suport laterals (més altes: fan de paret de contenció) */}
+            {[0.38, -0.38].map((bx, bi) => (
+              <mesh key={`beam${i}-${bi}`} position={[bx, sy - 0.012, 0]}>
+                <boxGeometry args={[0.045, 0.10, 0.60]} />
+                <meshStandardMaterial {...beamProps('plataformes')} />
+              </mesh>
+            ))}
+            {/* Tauló de fusta (panell central pla) */}
+            <mesh position={[0, sy, 0]}>
+              <boxGeometry args={[0.72, 0.028, 0.5]} />
+              <meshStandardMaterial {...woodProps('plataformes')} />
+            </mesh>
+            {/* Cantells aixecats en rampa suau (perquè els productes no rodin) */}
+            {[
+              { z: 0.205, rot: -0.2 },
+              { z: -0.205, rot: 0.2 },
+            ].map((lip, li) => (
+              <mesh key={`lip${i}-${li}`} position={[0, sy + 0.018, lip.z]} rotation={[lip.rot, 0, 0]}>
+                <boxGeometry args={[0.72, 0.028, 0.11]} />
+                <meshStandardMaterial {...woodProps('plataformes')} />
+              </mesh>
+            ))}
+          </group>
         ))}
       </PartGroup>
 
       {/* ── RODES ── */}
-      <PartGroup id="rodes" label="Rodes" labelPos={[0, -1.1, 0.4]} selectedId={selectedId} onSelect={onSelect}>
-        {wheelPositions.map(([wx, wy, wz], i) => (
+      <PartGroup id="rodes" label="Rodes" labelPos={[0, -1.05, 0.4]} selectedId={selectedId} onSelect={onSelect}>
+        {CASTER_POS.map(([wx, wz], i) => (
           <group key={`w${i}`}>
-            {/* Placa de muntatge */}
-            <mesh position={[wx, wy + WR + 0.005, wz]}>
-              <boxGeometry args={[0.085, 0.012, 0.085]} />
-              <meshStandardMaterial color="#8890a0" metalness={0.75} roughness={0.25} transparent opacity={op('rodes')} />
+            {/* Placa de muntatge superior */}
+            <mesh position={[wx, PLATE_Y, wz]}>
+              <boxGeometry args={[0.10, 0.014, 0.10]} />
+              <meshStandardMaterial color="#8e94a0" metalness={0.78} roughness={0.3} transparent opacity={op('rodes')} />
             </mesh>
-            {/* Forquilla / cos del caster */}
-            <mesh position={[wx, wy + WR * 0.42, wz]}>
-              <boxGeometry args={[0.016, WR * 0.85, 0.048]} />
-              <meshStandardMaterial color="#7a8292" metalness={0.65} roughness={0.35} transparent opacity={op('rodes')} />
+            {/* Barret giratori */}
+            <mesh position={[wx, PLATE_Y - 0.022, wz]}>
+              <cylinderGeometry args={[0.028, 0.032, 0.03, 16]} />
+              <meshStandardMaterial color="#7f8693" metalness={0.7} roughness={0.35} transparent opacity={op('rodes')} />
+            </mesh>
+            {/* Forquilla / carcassa */}
+            <mesh position={[wx, WHEEL_Y + 0.05, wz]}>
+              <boxGeometry args={[0.055, 0.13, 0.062]} />
+              <meshStandardMaterial color="#868d9a" metalness={0.68} roughness={0.36} transparent opacity={op('rodes')} />
             </mesh>
             {/* Pneumàtic de goma (negre) */}
-            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[WR, WR, 0.07, 28]} />
-              <meshStandardMaterial {...wheelProps} />
+            <mesh position={[wx, WHEEL_Y, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[WR, WR, 0.052, 32]} />
+              <meshStandardMaterial color="#1a1a1c" metalness={0.05} roughness={0.9} transparent opacity={op('rodes')} />
             </mesh>
-            {/* Hub (disc gris gran) */}
-            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[WR * 0.68, WR * 0.68, 0.074, 20]} />
-              <meshStandardMaterial color="#8090a8" metalness={0.72} roughness={0.22} transparent opacity={op('rodes')} />
+            {/* Disc / llanta gris */}
+            <mesh position={[wx, WHEEL_Y, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[WR * 0.62, WR * 0.62, 0.054, 24]} />
+              <meshStandardMaterial color="#808897" metalness={0.7} roughness={0.28} transparent opacity={op('rodes')} />
             </mesh>
-            {/* Eix central */}
-            <mesh position={[wx, wy, wz]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.013, 0.013, 0.08, 10]} />
-              <meshStandardMaterial color="#c0c4c8" metalness={0.92} roughness={0.10} transparent opacity={op('rodes')} />
+            {/* Femella central hexagonal */}
+            <mesh position={[wx, WHEEL_Y, wz]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.018, 0.018, 0.06, 6]} />
+              <meshStandardMaterial color="#b8bcc4" metalness={0.85} roughness={0.2} transparent opacity={op('rodes')} />
             </mesh>
-            {/* Fre (paleta negra) */}
-            <mesh position={[wx + (wx > 0 ? 0.055 : -0.055), wy - WR * 0.3, wz]}>
-              <boxGeometry args={[0.038, 0.022, 0.04]} />
-              <meshStandardMaterial color="#1a1a1a" metalness={0.05} roughness={0.9} transparent opacity={op('rodes')} />
+            {/* Pedal de fre */}
+            <mesh position={[wx, WHEEL_Y + 0.02, wz + (wz > 0 ? 0.07 : -0.07)]}>
+              <boxGeometry args={[0.05, 0.014, 0.045]} />
+              <meshStandardMaterial color="#202022" metalness={0.1} roughness={0.85} transparent opacity={op('rodes')} />
             </mesh>
           </group>
         ))}
       </PartGroup>
 
       {/* ── NANSES ── */}
-      {/* Ambdues nanses a la cara curta dreta (x=+0.38), una per cada pal */}
-      <PartGroup id="nanses" label="Nanses" labelPos={[0.75, 0.2, 0]} selectedId={selectedId} onSelect={onSelect}>
-        {([0.28, -0.28] as number[]).map((z, i) => (
-          <group key={`h${i}`}>
-            {/* Barra de prensió vertical, sobresurt cap a fora en +X */}
-            <mesh position={[0.47, 0.1, z]}>
-              <cylinderGeometry args={[0.019, 0.019, 0.36, 10]} />
-              <meshStandardMaterial {...handleProps} />
-            </mesh>
-            {/* Bracket superior (horitzontal en X) */}
-            <mesh position={[0.425, 0.28, z]} rotation={[0, 0, Math.PI / 2]}>
-              <cylinderGeometry args={[0.014, 0.014, 0.09, 8]} />
-              <meshStandardMaterial {...handleProps} />
-            </mesh>
-            {/* Bracket inferior */}
-            <mesh position={[0.425, -0.08, z]} rotation={[0, 0, Math.PI / 2]}>
-              <cylinderGeometry args={[0.014, 0.014, 0.09, 8]} />
-              <meshStandardMaterial {...handleProps} />
-            </mesh>
-          </group>
-        ))}
+      {/* Nanses en forma de D, una per muntant, cap enfora (±X) */}
+      <PartGroup id="nanses" label="Nanses" labelPos={[0.78, 0.2, 0]} selectedId={selectedId} onSelect={onSelect}>
+        {POST_POS.map(([px, , pz], i) => {
+          const dir = Math.sign(px) || 1
+          const hy = 0.16
+          return (
+            <group key={`hand${i}`}>
+              {/* Base de subjecció contra el muntant */}
+              <mesh position={[px + dir * 0.03, hy, pz]}>
+                <boxGeometry args={[0.02, 0.17, 0.052]} />
+                <meshStandardMaterial color="#9398a2" metalness={0.35} roughness={0.5} transparent opacity={op('nanses')} />
+              </mesh>
+              {/* Barra de prensió vertical */}
+              <mesh position={[px + dir * 0.10, hy, pz]}>
+                <cylinderGeometry args={[0.018, 0.018, 0.20, 12]} />
+                <meshStandardMaterial color="#9398a2" metalness={0.35} roughness={0.5} transparent opacity={op('nanses')} />
+              </mesh>
+              {/* Braç superior */}
+              <mesh position={[px + dir * 0.065, hy + 0.092, pz]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.016, 0.016, 0.085, 10]} />
+                <meshStandardMaterial color="#9398a2" metalness={0.35} roughness={0.5} transparent opacity={op('nanses')} />
+              </mesh>
+              {/* Braç inferior */}
+              <mesh position={[px + dir * 0.065, hy - 0.092, pz]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.016, 0.016, 0.085, 10]} />
+                <meshStandardMaterial color="#9398a2" metalness={0.35} roughness={0.5} transparent opacity={op('nanses')} />
+              </mesh>
+            </group>
+          )
+        })}
       </PartGroup>
 
       {/* ── CONTENIDORS ── */}
-      <PartGroup id="contenidors" label="Contenidors" labelPos={[0, -0.56, 0.45]} selectedId={selectedId} onSelect={onSelect}>
-        {/* Groc - cartró — sobre la plataforma inferior */}
-        <mesh position={[-0.19, -0.50, 0]}>
-          <boxGeometry args={[0.3, 0.23, 0.44]} />
-          <meshStandardMaterial {...binProps('contenidors')} color="#A89A18" />
+      <PartGroup id="contenidors" label="Contenidors" labelPos={[0, -0.5, 0.45]} selectedId={selectedId} onSelect={onSelect}>
+        {/* Contenidor oliva (cartró) */}
+        <mesh position={[-0.18, -0.50, 0]}>
+          <boxGeometry args={[0.30, 0.30, 0.44]} />
+          <meshStandardMaterial
+            color="#8f8a1e"
+            metalness={0}
+            roughness={0.75}
+            emissive={em('contenidors')}
+            emissiveIntensity={emI('contenidors')}
+            transparent
+            opacity={op('contenidors')}
+          />
         </mesh>
-        {/* Blau - plàstic */}
-        <mesh position={[0.19, -0.50, 0]}>
-          <boxGeometry args={[0.3, 0.23, 0.44]} />
-          <meshStandardMaterial {...binProps('contenidors')} color="#2448A8" />
-        </mesh>
-        {/* Frontal groc */}
-        <mesh position={[-0.19, -0.44, 0.225]}>
-          <boxGeometry args={[0.2, 0.07, 0.005]} />
-          <meshStandardMaterial color="#C0B020" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
-        </mesh>
-        {/* Frontal blau */}
-        <mesh position={[0.19, -0.44, 0.225]}>
-          <boxGeometry args={[0.2, 0.07, 0.005]} />
-          <meshStandardMaterial color="#2A52C0" metalness={0} roughness={0.7} transparent opacity={op('contenidors')} />
+        {/* Contenidor blau (plàstic) */}
+        <mesh position={[0.18, -0.50, 0]}>
+          <boxGeometry args={[0.30, 0.30, 0.44]} />
+          <meshStandardMaterial
+            color="#22408c"
+            metalness={0}
+            roughness={0.6}
+            emissive={em('contenidors')}
+            emissiveIntensity={emI('contenidors')}
+            transparent
+            opacity={op('contenidors')}
+          />
         </mesh>
       </PartGroup>
 
       {/* ── BLOQUEIG ── */}
-      <PartGroup id="bloqueig" label="Sistema de Bloqueig" labelPos={[0.55, 0.35, 0.42]} selectedId={selectedId} onSelect={onSelect}>
-        {([-0.38, 0.38] as number[]).flatMap((x, xi) =>
-          [0.28, -0.22].map((y, yi) => (
-            <group key={`lk${xi}${yi}`}>
-              <mesh position={[x, y, 0.28]}>
-                <boxGeometry args={[0.048, 0.04, 0.04]} />
-                <meshStandardMaterial {...lockProps} />
-              </mesh>
-              <mesh position={[x, y - 0.06, 0.28]}>
-                <cylinderGeometry args={[0.012, 0.012, 0.08, 8]} />
-                <meshStandardMaterial {...lockProps} />
-              </mesh>
-            </group>
-          ))
+      {/* Passadors que fixen les bigues als forats dels muntants */}
+      <PartGroup id="bloqueig" label="Sistema de Bloqueig" labelPos={[0.55, 0.45, 0.42]} selectedId={selectedId} onSelect={onSelect}>
+        {POST_POS.flatMap(([px, , pz], pi) =>
+          SHELF_YS.map((sy, si) => {
+            const xdir = Math.sign(px) || 1
+            return (
+              <group key={`lk${pi}-${si}`}>
+                {/* Cos del passador (cara lateral del muntant) */}
+                <mesh position={[px + xdir * 0.04, sy - 0.042, pz]} rotation={[0, 0, Math.PI / 2]}>
+                  <cylinderGeometry args={[0.016, 0.016, 0.03, 14]} />
+                  <meshStandardMaterial color="#aeb3bb" metalness={0.75} roughness={0.3} transparent opacity={op('bloqueig')} />
+                </mesh>
+                {/* Cap arrodonit */}
+                <mesh position={[px + xdir * 0.056, sy - 0.042, pz]}>
+                  <sphereGeometry args={[0.018, 14, 12]} />
+                  <meshStandardMaterial color="#bcc1c9" metalness={0.78} roughness={0.26} transparent opacity={op('bloqueig')} />
+                </mesh>
+              </group>
+            )
+          })
         )}
       </PartGroup>
     </group>
