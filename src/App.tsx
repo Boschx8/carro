@@ -8,6 +8,8 @@ import Problem from './components/Problem'
 import CartViewer from './components/CartViewer'
 import ROISection from './components/ROISection'
 import PilotSection from './components/PilotSection'
+import Competencia from './components/Competencia'
+import Footer from './components/Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,6 +27,8 @@ export default function App() {
       <CartViewer />
       <ROISection />
       <PilotSection />
+      <Competencia />
+      <Footer />
     </>
   )
 }
